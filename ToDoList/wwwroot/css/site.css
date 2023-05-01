@@ -16,3 +16,20 @@ html {
 /*body {
   margin-bottom: 60px;
 }*/
+
+.star {
+    visibility: hidden;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.star:before {
+        content: "\2605";
+        position: absolute;
+        visibility: visible;
+    }
+
+.star:checked:before {
+    content: "\2606";
+    position: absolute;
+}
