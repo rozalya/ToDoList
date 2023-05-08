@@ -6,116 +6,92 @@
     Layout = null;
 }
 
-
-
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>@ViewData["Title"] ToDoList</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"]</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="~/css/adminlte.min.css">
-  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-  <link rel="stylesheet" href="~/plugins/toastr/toastr.css" />
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-
-
-  <!-- Content Wrapper. Contains page content -->
-  <div style="min-height: 870.5px;display: block;margin-left: auto;margin-right: auto;width: 40%;/* height: 40%; */">
-
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-	<div class="section">
-		<div class="container">
-			<div class="row full-height justify-content-center">
-				<div class="col-12 text-center align-self-center py-5">
-					<div class="section pb-5 pt-5 pt-sm-2 text-center">
-						<h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
-			          	<input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
-			          	<label for="reg-log"></label>
-						<div class="card-3d-wrap mx-auto">
-							<div class="card-3d-wrapper">
-                                   <form id="account" method="post">
-								<div class="card-front">
-									<div class="center-wrap">
-										<div class="section text-center">
-											<h4 class="mb-4 pb-3">Log In</h4>
-											<div class="form-group">
-												<input  asp-for="Input.Email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
-                                                <span asp-validation-for="Input.Email" class="text-danger"></span>
-												<i class="input-icon uil uil-at"></i>
-											</div>	
-											<div class="form-group mt-2">
-												<input asp-for="Input.Password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
-                                                 <span asp-validation-for="Input.Password" class="text-danger"></span>
-												<i class="input-icon uil uil-lock-alt"></i>
-											</div>
-                                            <div class="form-group">
-                                                <label asp-for="Input.RememberMe" class="form-label"> 
-                                                <input type="checkbox" class="form-check-input" asp-for="Input.RememberMe" />
-                                                @Html.DisplayNameFor(m => m.Input.RememberMe)
-                                               </label>
-                                            </div>
-                                            <button id="login-submit" type="submit" class="btn mt-4">Log in</button>
-                            				<p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
-				      					</div>
-			      					</div>
-			      				</div>
-                                   </form>
-								<div class="card-back">
-									<div class="center-wrap">
-										<div class="section text-center">
-											<h4 class="mb-4 pb-3">Sign Up</h4>
-											<div class="form-group">
-												<input type="text" name="logname" class="form-style" placeholder="Your Full Name" id="logname" autocomplete="off">
-												<i class="input-icon uil uil-user"></i>
-											</div>	
-											<div class="form-group mt-2">
-												<input type="email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
-												<i class="input-icon uil uil-at"></i>
-											</div>	
-											<div class="form-group mt-2">
-												<input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
-												<i class="input-icon uil uil-lock-alt"></i>
-											</div>
-											<a href="#" class="btn mt-4">submit</a>
-				      					</div>
-			      					</div>
-			      				</div>
-			      			</div>
-			      		</div>
-			      	</div>
-		      	</div>
-	      	</div>
-	    </div>
-	</div>
-
-
-
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
+<body class="login-page" style="min-height: 494.802px;">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>Admin</b>LTE</a>
   </div>
-  <!-- /.content-wrapper -->
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
 
+      <form id="account" method="post">
+        <div class="input-group mb-3">
+          <input asp-for="Input.Email" class="form-control" placeholder="Email">
+           <span asp-validation-for="Input.Email" class="text-danger"></span>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input asp-for="Input.Password" class="form-control" placeholder="Password">
+           <span asp-validation-for="Input.Password" class="text-danger"></span>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" asp-for="Input.RememberMe" id="remember">
+                @Html.DisplayNameFor(m => m.Input.RememberMe)
+            @*  <label for="remember">
+                Remember Me
+              </label>*@
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button id="login-submit" type="submit" class="btn btn-primary btn-block">Log in</button>
+@*            <button type="submit" class="btn btn-primary btn-block">Sign In</button>*@
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center mb-3">
+        <p>- OR -</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+        </a>
+      </div>
+      <!-- /.social-auth-links -->
+
+      <p class="mb-1">
+          <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+      </p>
+      <p class="mb-0">
+          <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
 </div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
+<!-- /.login-box -->
 
 <!-- jQuery -->
 <script src="~/plugins/jquery/jquery.min.js"></script>
@@ -123,13 +99,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="~/js/adminlte.min.js"></script>
-<script src="~/plugins/toastr/toastr.min.js"></script>
+
+
 </body>
+
 </html>
-
-
-
-    
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
