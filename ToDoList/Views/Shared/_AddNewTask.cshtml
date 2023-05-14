@@ -2,7 +2,8 @@
 <div class="card-header">
     <h3 class="card-title">Add new task</h3>
 </div>
-<form method="post">
+<form method="post"  asp-action="AddNewTask" asp-controller="Home">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="card-body">
         <div class="form-group" data-select2-id="51">
             <label>Task</label>
@@ -12,7 +13,7 @@
                         <i class="fas fa-check"></i>
                     </span>
                 </div>
-                <input type="text" class="form-control" placeholder="Task">
+                <input type="text" class="form-control" name="Note" placeholder="Task">
             </div>
         </div>
     </div>
@@ -21,13 +22,13 @@
             <div class="col-4">
                 <div class="form-group">
                     <label class="control-label">Due</label>
-                    <input type="date" id="date" value="@DateTime.Now">
+                    <input type="date" id="date"  name="DueDate" value="@DateTime.Now">
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input" name="IsImportant" type="checkbox">
                         <label class="form-check-label">Important</label>
                     </div>
                 </div>

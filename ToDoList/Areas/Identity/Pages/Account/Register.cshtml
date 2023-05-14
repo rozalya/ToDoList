@@ -34,6 +34,7 @@
       <p class="login-box-msg">Register a new membership</p>
 
       <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="input-group mb-3">
                 <input asp-for="Input.UserName" class="form-control" autocomplete="username" placeholder="Full name" aria-required="true" />
                 <span asp-validation-for="Input.UserName" class="text-danger"></span>
@@ -44,7 +45,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="Email" aria-required="true" />
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Email" aria-required="true" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
           <div class="input-group-append">
             <div class="input-group-text">

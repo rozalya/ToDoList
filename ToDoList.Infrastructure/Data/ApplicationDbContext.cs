@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ToDoList.Infrastructure.InitialSeed;
 
 namespace ToDoList.Infrastructure.Data
 {
@@ -9,5 +10,18 @@ namespace ToDoList.Infrastructure.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+              modelBuilder.Entity<NewTask>()
+                 .HasIndex(c => c.Id)
+                .IsUnique();
+
+            modelBuilder.ApplyConfiguration(new InitialDataConfiguration<NewTask>(@"InitialSeed/categories.json"));
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public DbSet<NewTask> NewTasks { get; set; }
     }
 }
+
