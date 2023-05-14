@@ -12,10 +12,7 @@ namespace ToDoList.Infrastructure.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-              modelBuilder.Entity<NewTask>()
-                 .HasIndex(c => c.Id)
-                .IsUnique();
-
+    
             modelBuilder.ApplyConfiguration(new InitialDataConfiguration<NewTask>(@"InitialSeed/categories.json"));
 
             base.OnModelCreating(modelBuilder);

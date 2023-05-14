@@ -18,7 +18,23 @@ namespace ToDoList.Core.Services
         {
             repo = _repo;
         }
-        public Task NewTask(AddNewTaskViewModel addNewTaskViewModel)
+
+        public TasksListViewModel GetAllTasks(string userId)
+        {
+            var userTasks = repo.All<NewTask>()
+                .Where(task => task.UserId == userId)
+                .Select(t => new AddNewTaskViewModel()
+                {
+                    Note = t.Note,
+                    DueDate = t.DueDate,
+                    IsImportant = t.IsImportant
+                }).ToList();
+
+            var test = new TasksListViewModel() { AddNewTaskViewModel = userTasks };
+            return test;
+        }
+
+        public Task NewTask(AddNewTaskViewModel addNewTaskViewModel, string Id)
         {
 
           /*  if (addNewTaskViewModel.DueDate != null)
@@ -28,6 +44,7 @@ namespace ToDoList.Core.Services
 
             NewTask newtask = new NewTask
             {
+                UserId = Id,
                 Note = addNewTaskViewModel.Note,
                 DueDate = addNewTaskViewModel.DueDate,
                 IsImportant = addNewTaskViewModel.IsImportant,

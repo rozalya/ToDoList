@@ -12,41 +12,11 @@ namespace ToDoList.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IAddNewTaskService addNewTaskService;
 
-        public HomeController(ILogger<HomeController> logger,
-            IAddNewTaskService _addNewTaskService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            addNewTaskService = _addNewTaskService;
-        }
 
-        [HttpGet]
-        public IActionResult AddNewTask()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public IActionResult AddNewTask(AddNewTaskViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    addNewTaskService.NewTask(model);
-                }
-                catch (ArgumentException ae)
-                {
-                    return BadRequest(ae.Message);
-                }
-
-                return Ok();               
-            }
-
-            return View();
         }
 
         public IActionResult Index()

@@ -9,6 +9,8 @@ namespace ToDoList.Core.Contracts
 {
     public interface IAddNewTaskService
     {
-        Task NewTask(AddNewTaskViewModel addNewTaskViewModel);
+        Task NewTask(AddNewTaskViewModel addNewTaskViewModel, string Id);
+
+        TasksListViewModel GetAllTasks(string id);
     }
 }
