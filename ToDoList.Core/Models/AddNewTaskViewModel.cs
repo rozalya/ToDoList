@@ -6,9 +6,9 @@ namespace ToDoList.Core.Models
     {
 
         [Required]
-        public string Note { get; set; }    
+        public string Note { get; set; }
 
-        public string ?DueDate { get; set; }
+        public DateTime? DueDate { get; set; } = DateTime.Today;
 
         public bool IsImportant { get; set; }
 

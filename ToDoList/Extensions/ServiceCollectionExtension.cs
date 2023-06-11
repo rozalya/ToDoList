@@ -11,7 +11,7 @@ namespace ToDoList.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IApplicatioDbRepository, ApplicatioDbRepository>();
-            services.AddScoped<IAddNewTaskService, AddNewTaskService>();
+            services.AddScoped<ITasksService, TasksService>();
 
 
             return services;

@@ -9,10 +9,10 @@ namespace ToDoList.Controllers
 {
     public class TasksController : Controller
     {
-        private readonly IAddNewTaskService addNewTaskService;
+        private readonly ITasksService addNewTaskService;
         private readonly UserManager<IdentityUser> userManager;
 
-        public TasksController(IAddNewTaskService _addNewTaskService,
+        public TasksController(ITasksService _addNewTaskService,
            UserManager<IdentityUser> _userManager)
         {
             addNewTaskService = _addNewTaskService;
@@ -80,7 +80,7 @@ namespace ToDoList.Controllers
                     return BadRequest(ae.Message);
                 }
 
-                return View("AllTasks");
+                return View("~/Views/Home/Index.cshtml");
             }
 
             return View();

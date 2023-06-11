@@ -7,7 +7,7 @@ using ToDoList.Core.Models;
 
 namespace ToDoList.Core.Contracts
 {
-    public interface IAddNewTaskService
+    public interface ITasksService
     {
         Task NewTask(AddNewTaskViewModel addNewTaskViewModel, string Id);
 

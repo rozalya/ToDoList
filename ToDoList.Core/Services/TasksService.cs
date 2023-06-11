@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDoList.Core.Contracts;
+﻿using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Data.Repositories;
 
 namespace ToDoList.Core.Services
 {
-    public class AddNewTaskService : IAddNewTaskService
+    public class TasksService : ITasksService
     {
         private readonly IApplicatioDbRepository repo;
-        public AddNewTaskService(IApplicatioDbRepository _repo)
+        public TasksService(IApplicatioDbRepository _repo)
         {
             repo = _repo;
         }
@@ -22,10 +16,9 @@ namespace ToDoList.Core.Services
         public TasksListViewModel GetTodayTasks(string userId)
         {
             var userTasks = GetPlannedTasks(userId);
-            var test1 = userTasks.AddNewTaskViewModel.Where(x => DateTime.Parse(x.DueDate).ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
+            var test1 = userTasks.AddNewTaskViewModel.Where(x => x.DueDate == DateTime.Today).ToList();
 
-            var test = new TasksListViewModel() { AddNewTaskViewModel = test1 };
-            return test;
+            return new TasksListViewModel() { AddNewTaskViewModel = test1 };
         }
 
         public TasksListViewModel GetPlannedTasks(string userId)
@@ -39,8 +32,10 @@ namespace ToDoList.Core.Services
                     IsImportant = t.IsImportant
                 }).ToList();
 
-            var test = new TasksListViewModel() { AddNewTaskViewModel = userTasks };
-            return test;
+            return new TasksListViewModel()
+            {
+                AddNewTaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
+            };
         }
 
         public TasksListViewModel GetImportantTasks(string userId)
@@ -54,8 +49,10 @@ namespace ToDoList.Core.Services
                     IsImportant = t.IsImportant
                 }).ToList();
 
-            var test = new TasksListViewModel() { AddNewTaskViewModel = userTasks };
-            return test;
+            return new TasksListViewModel()
+            {
+                AddNewTaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
+            };
         }
 
         public TasksListViewModel GetAllTasks(string userId)
@@ -69,18 +66,14 @@ namespace ToDoList.Core.Services
                     IsImportant = t.IsImportant
                 }).ToList();
 
-            var test = new TasksListViewModel() { AddNewTaskViewModel = userTasks };
-            return test;
+            return new TasksListViewModel()
+            {
+                AddNewTaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
+            };
         }
 
         public Task NewTask(AddNewTaskViewModel addNewTaskViewModel, string Id)
         {
-
-          /*  if (addNewTaskViewModel.DueDate != null)
-            {
-                date = DateTime.ParseExact(addNewTaskViewModel.DueDate, "g", new CultureInfo("en-US"), DateTimeStyles.None);
-            }*/
-
             NewTask newtask = new NewTask
             {
                 UserId = Id,
@@ -90,7 +83,7 @@ namespace ToDoList.Core.Services
             };
 
             var result = repo.AddAsync(newtask);
-              repo.SaveChanges();
+            repo.SaveChanges();
 
             return result;
         }

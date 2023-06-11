@@ -232,6 +232,7 @@ label {
 
 button {
   border-radius: 0;
+  margin-right: 8px;
 }
 
 button:focus:not(:focus-visible) {

@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using ToDoList.Core.Constants;
 using ToDoList.Extensions.DependencyInjection;
 using ToDoList.Infrastructure.Data;
+using ToDoList.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +16,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+     .AddMvcOptions(options =>
+     {
+         options.ModelBinderProviders.Insert(1, new DateTimeModelBinderProvider(FormatingConstant.NormalDateFormat));
+     })
+    .AddMvcLocalization(LanguageViewLocationExpanderFormat.Suffix);
 
 builder.Services.AddApplicationServices();
 var app = builder.Build();
