@@ -3,7 +3,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <a href="#" class="nav-link">
+             <a asp-controller="Tasks" asp-action="TodayTasks" class="nav-link">
                 <i class="fas fa-sun"></i>
                 <p>
                     Today
@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a asp-controller="Tasks" asp-action="ImportantTasks" class="nav-link">
                 <i class="fas fa-pepper-hot"></i>
                 <p>
                     Hot
@@ -21,7 +21,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a asp-controller="Tasks" asp-action="PlannedTasks" class="nav-link">
                 <i class="fas fa-calendar-check"></i>
                 <p>
                     Planned
@@ -40,7 +40,7 @@
         </li>
         </li>
         <li class="nav-item">
-            <a asp-controller="AddNewTask" asp-action="AllTasks" class="nav-link">
+            <a asp-controller="Tasks" asp-action="AllTasks" class="nav-link">
                 <i class="fas fa-list"></i>
                 <p>
                     All tasks

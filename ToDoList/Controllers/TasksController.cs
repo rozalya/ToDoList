@@ -7,12 +7,12 @@ using ToDoList.Core.Models;
 
 namespace ToDoList.Controllers
 {
-    public class AddNewTaskController : Controller
+    public class TasksController : Controller
     {
         private readonly IAddNewTaskService addNewTaskService;
         private readonly UserManager<IdentityUser> userManager;
 
-        public AddNewTaskController(IAddNewTaskService _addNewTaskService,
+        public TasksController(IAddNewTaskService _addNewTaskService,
            UserManager<IdentityUser> _userManager)
         {
             addNewTaskService = _addNewTaskService;
@@ -40,6 +40,27 @@ namespace ToDoList.Controllers
             return View(model);
         }
 
+        public ActionResult ImportantTasks()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = addNewTaskService.GetImportantTasks(userId);
+            return View(model);
+        }
+
+        public ActionResult PlannedTasks()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = addNewTaskService.GetPlannedTasks(userId);
+            return View(model);
+        }
+
+        public ActionResult TodayTasks()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = addNewTaskService.GetTodayTasks(userId);
+            return View(model);
+        }
+
         // POST: AddNewTaskController/Create
 
         [HttpPost]
@@ -59,7 +80,7 @@ namespace ToDoList.Controllers
                     return BadRequest(ae.Message);
                 }
 
-                return Ok();
+                return View("AllTasks");
             }
 
             return View();

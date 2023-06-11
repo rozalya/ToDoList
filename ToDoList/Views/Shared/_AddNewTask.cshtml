@@ -2,7 +2,7 @@
 <div class="card-header">
     <h3 class="card-title">Add new task</h3>
 </div>
-<form method="post"  asp-action="AddNewTask" asp-controller="AddNewTask">
+<form method="post"  asp-action="AddNewTask" asp-controller="Tasks">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="card-body">
         <div class="form-group" data-select2-id="51">
@@ -28,7 +28,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" name="IsImportant" type="checkbox">
+                        <input class="form-check-input" name="IsImportant" type="checkbox" value="false" onchange="this.value=this.checked">
                         <label class="form-check-label">Important</label>
                     </div>
                 </div>

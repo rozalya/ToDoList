@@ -12,5 +12,8 @@ namespace ToDoList.Core.Contracts
         Task NewTask(AddNewTaskViewModel addNewTaskViewModel, string Id);
 
         TasksListViewModel GetAllTasks(string id);
+        TasksListViewModel GetImportantTasks(string id);
+        TasksListViewModel GetPlannedTasks(string id);
+        TasksListViewModel GetTodayTasks(string id);
     }
 }

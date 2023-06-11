@@ -1,0 +1,27 @@
+﻿ <div class="row">
+        <div class="col-sm-12">
+            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
+                <thead>
+                    <tr>
+                        <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Note</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Due Date</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Is Important</th>
+                </thead>
+                <tbody>
+                    @foreach(var task in Model.AddNewTaskViewModel)
+                    {
+                        <tr class="odd">
+                            <td class="dtr-control sorting_1" tabindex="0">@task.Note</td>
+                            <td class="dtr-control sorting_1" tabindex="0">@task.DueDate</td>
+                            @if(task.IsImportant == true)
+                            {
+                                <td class="dtr-control sorting_1" tabindex="1" >
+                                    <i class="fas fa-exclamation"></i>
+                                </td>
+                            }
+                        </tr>                      
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

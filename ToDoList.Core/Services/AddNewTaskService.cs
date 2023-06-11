@@ -19,6 +19,45 @@ namespace ToDoList.Core.Services
             repo = _repo;
         }
 
+        public TasksListViewModel GetTodayTasks(string userId)
+        {
+            var userTasks = GetPlannedTasks(userId);
+            var test1 = userTasks.AddNewTaskViewModel.Where(x => DateTime.Parse(x.DueDate).ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
+
+            var test = new TasksListViewModel() { AddNewTaskViewModel = test1 };
+            return test;
+        }
+
+        public TasksListViewModel GetPlannedTasks(string userId)
+        {
+            var userTasks = repo.All<NewTask>()
+                .Where(task => task.UserId == userId && task.DueDate != null)
+                .Select(t => new AddNewTaskViewModel()
+                {
+                    Note = t.Note,
+                    DueDate = t.DueDate,
+                    IsImportant = t.IsImportant
+                }).ToList();
+
+            var test = new TasksListViewModel() { AddNewTaskViewModel = userTasks };
+            return test;
+        }
+
+        public TasksListViewModel GetImportantTasks(string userId)
+        {
+            var userTasks = repo.All<NewTask>()
+                .Where(task => task.UserId == userId && task.IsImportant == true)
+                .Select(t => new AddNewTaskViewModel()
+                {
+                    Note = t.Note,
+                    DueDate = t.DueDate,
+                    IsImportant = t.IsImportant
+                }).ToList();
+
+            var test = new TasksListViewModel() { AddNewTaskViewModel = userTasks };
+            return test;
+        }
+
         public TasksListViewModel GetAllTasks(string userId)
         {
             var userTasks = repo.All<NewTask>()

@@ -1,0 +1,24 @@
+﻿﻿@using ToDoList.Core.Models
+@model TasksListViewModel
+
+@{
+    ViewData["Title"] = "Planned Tasks";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1 class="display-4">Tasks</h1>
+    </div>
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Planned Tasks</h3>
+        </div>
+
+    <div>
+        <partial name="_TasksList" />
+
+    </div>  
+    </div>
+}
