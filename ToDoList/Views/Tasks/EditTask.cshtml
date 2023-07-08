@@ -1,0 +1,55 @@
+﻿﻿@using ToDoList.Core.Models
+@model AddNewTaskViewModel
+
+@{
+       ViewData["Title"] = "Edit Task";
+}
+
+<div>
+<div class="card card-secondary">
+<div class="card-header">
+    <h3 class="card-title">Add new task</h3>
+</div>
+<form method="post"  asp-action="EditTask" asp-controller="Tasks">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="card-body">
+        <div class="form-group" data-select2-id="51">
+            <label>Task</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-check"></i>
+                    </span>
+                </div>
+                <input type="text" asp-for="Note" value="@Model.Note" class="form-control" name="Note">
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="control-label">Due</label>
+                    <input type="date" asp-for="DueDate" value="@Model.DueDate" id="date"  name="DueDate">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="IsImportant" name="IsImportant" type="checkbox" value="@Model.IsImportant" onchange="this.value=this.checked">
+                        <label class="form-check-label">Important</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary float-right">Add</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+</div>

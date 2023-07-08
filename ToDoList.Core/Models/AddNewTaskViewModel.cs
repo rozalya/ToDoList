@@ -4,6 +4,7 @@ namespace ToDoList.Core.Models
 {
     public class AddNewTaskViewModel
     {
+        public Guid Id { get; set; }
 
         [Required]
         public string Note { get; set; }

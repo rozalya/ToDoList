@@ -9,11 +9,14 @@ namespace ToDoList.Core.Contracts
 {
     public interface ITasksService
     {
-        Task NewTask(AddNewTaskViewModel addNewTaskViewModel, string Id);
+        Task NewTask(AddNewTaskViewModel addNewTaskViewModel, string userId);
+        void EditTask(AddNewTaskViewModel addNewTaskViewModel, string userId);
 
-        TasksListViewModel GetAllTasks(string id);
-        TasksListViewModel GetImportantTasks(string id);
-        TasksListViewModel GetPlannedTasks(string id);
-        TasksListViewModel GetTodayTasks(string id);
+        TasksListViewModel GetAllTasks(string userId);
+        TasksListViewModel GetImportantTasks(string userId);
+        TasksListViewModel GetPlannedTasks(string userId);
+        TasksListViewModel GetTodayTasks(string userId);
+        Task <AddNewTaskViewModel> GetTask(string id);
+        Task DeleteTask(Guid Id);
     }
 }

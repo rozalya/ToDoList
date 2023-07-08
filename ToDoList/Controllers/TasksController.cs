@@ -9,13 +9,13 @@ namespace ToDoList.Controllers
 {
     public class TasksController : Controller
     {
-        private readonly ITasksService addNewTaskService;
+        private readonly ITasksService taskService;
         private readonly UserManager<IdentityUser> userManager;
 
         public TasksController(ITasksService _addNewTaskService,
            UserManager<IdentityUser> _userManager)
         {
-            addNewTaskService = _addNewTaskService;
+            taskService = _addNewTaskService;
             userManager = _userManager;
         }
 
@@ -36,28 +36,28 @@ namespace ToDoList.Controllers
         public ActionResult AllTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = addNewTaskService.GetAllTasks(userId);
+            var model = taskService.GetAllTasks(userId);
             return View(model);
         }
 
         public ActionResult ImportantTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = addNewTaskService.GetImportantTasks(userId);
+            var model = taskService.GetImportantTasks(userId);
             return View(model);
         }
 
         public ActionResult PlannedTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = addNewTaskService.GetPlannedTasks(userId);
+            var model = taskService.GetPlannedTasks(userId);
             return View(model);
         }
 
         public ActionResult TodayTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = addNewTaskService.GetTodayTasks(userId);
+            var model = taskService.GetTodayTasks(userId);
             return View(model);
         }
 
@@ -73,7 +73,7 @@ namespace ToDoList.Controllers
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    addNewTaskService.NewTask(model, userId);
+                    taskService.NewTask(model, userId);
                 }
                 catch (ArgumentException ae)
                 {
@@ -87,24 +87,31 @@ namespace ToDoList.Controllers
         }
 
         // GET: AddNewTaskController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> EditTask(Guid Id)
         {
-            return View();
+            var task = await taskService.GetTask(Id.ToString());
+            return View(task);
         }
 
         // POST: AddNewTaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> EditTask(AddNewTaskViewModel model)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+           if (User.Identity.IsAuthenticated)
+           {
+                try
+                {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    taskService.EditTask(model, userId);
+                    return RedirectToAction("AllTasks");
+                }
+                catch
+                {
+                    return View();
+                }
+           }
+            return View();
         }
 
         // GET: AddNewTaskController/Delete/5
@@ -116,11 +123,12 @@ namespace ToDoList.Controllers
         // POST: AddNewTaskController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteTask(Guid Id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await taskService.DeleteTask(Id);
+                return RedirectToAction("AllTasks");
             }
             catch
             {
