@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ToDoList.Infrastructure.Data
 {
@@ -23,5 +18,8 @@ namespace ToDoList.Infrastructure.Data
 
         [Range(typeof(bool), "true", "true")]
         public bool IsImportant { get; set; }
+
+        [Range(typeof(bool), "true", "true")]
+        public bool IsClosed { get; set; }
     }
 }

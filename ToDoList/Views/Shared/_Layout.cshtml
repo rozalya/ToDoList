@@ -34,7 +34,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a asp-action="index" asp-controller="Home" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-action="AddNewTask" asp-controller="Tasks"class="nav-link">New Task</a>
+                    <a asp-action="AddNewTask" asp-controller="Tasks"class="nav-link">
+                        New Task
+                        <i class="fas fa-hourglass-start"></i>
+                    </a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a asp-action="AllTasks" asp-controller="ExpiredTasks"class="nav-link">
+                        Expired Tasks
+                        <i class="fas fa-hourglass-end"></i>
+                    </a>
                 </li>
             </ul>
 

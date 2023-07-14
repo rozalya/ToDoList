@@ -12,6 +12,7 @@ namespace ToDoList.Core.Models
         public DateTime? DueDate { get; set; } = DateTime.Today;
 
         public bool IsImportant { get; set; }
+        public bool IsColsed{ get; set; }
 
     }
 }

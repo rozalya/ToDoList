@@ -17,3 +17,8 @@ html {
   margin-bottom: 60px;
 }*/
 
+.row-disabled {
+    background-color: rgb(232,232,232);
+    pointer-events: none;
+    width: 100%;
+}

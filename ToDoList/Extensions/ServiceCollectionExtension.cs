@@ -12,7 +12,7 @@ namespace ToDoList.Extensions.DependencyInjection
         {
             services.AddScoped<IApplicatioDbRepository, ApplicatioDbRepository>();
             services.AddScoped<ITasksService, TasksService>();
-
+            services.AddScoped<IExpiredTasksService, ExpiredTasksService>();
 
             return services;
         }
