@@ -31,7 +31,7 @@
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Is Important</th>
                 </thead>
                 <tbody>
-                    @foreach(var task in Model.AddNewTaskViewModel)
+                    @foreach(var task in Model.TaskViewModel)
                     {
                             @if(task.IsImportant == true)
                             {

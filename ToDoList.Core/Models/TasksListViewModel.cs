@@ -2,6 +2,6 @@
 {
     public class TasksListViewModel
     {
-        public List<AddNewTaskViewModel> AddNewTaskViewModel { get; internal set; }
+        public List<TaskViewModel> TaskViewModel { get; internal set; }
     }
 }

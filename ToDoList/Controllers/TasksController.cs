@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
@@ -66,7 +65,7 @@ namespace ToDoList.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult AddNewTask(AddNewTaskViewModel model)
+        public IActionResult AddNewTask(TaskViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -89,21 +88,21 @@ namespace ToDoList.Controllers
         // GET: AddNewTaskController/Edit/5
         public async Task<IActionResult> EditTask(Guid Id)
         {
-            var task = await taskService.GetTask(Id.ToString());
+            var task = await taskService.GetTask(Id);
             return View(task);
         }
 
         // POST: AddNewTaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTask(AddNewTaskViewModel model)
+        public async Task<IActionResult> EditTask(TaskViewModel model)
         {
            if (User.Identity.IsAuthenticated)
            {
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    taskService.EditTask(model, userId);
+                    await taskService.EditTask(model, userId);
                     return RedirectToAction("AllTasks");
                 }
                 catch
@@ -128,6 +127,21 @@ namespace ToDoList.Controllers
             try
             {
                 await taskService.DeleteTask(Id);
+                return RedirectToAction("AllTasks");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CompleteTask(Guid Id)
+        {
+            try
+            {
+                await taskService.CompleteTask(Id);
                 return RedirectToAction("AllTasks");
             }
             catch

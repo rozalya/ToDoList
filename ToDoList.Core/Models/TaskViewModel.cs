@@ -2,7 +2,7 @@
 
 namespace ToDoList.Core.Models
 {
-    public class AddNewTaskViewModel
+    public class TaskViewModel
     {
         public Guid Id { get; set; }
 
@@ -13,6 +13,7 @@ namespace ToDoList.Core.Models
 
         public bool IsImportant { get; set; }
         public bool IsColsed{ get; set; }
+        public DateTime? CompletedDate { get; set; }
 
     }
 }

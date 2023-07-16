@@ -13,12 +13,14 @@ namespace ToDoList.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
     
-            modelBuilder.ApplyConfiguration(new InitialDataConfiguration<NewTask>(@"InitialSeed/categories.json"));
+            modelBuilder.ApplyConfiguration(new InitialDataConfiguration<ActiveTask>(@"InitialSeed/categories.json"));
 
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<NewTask> NewTasks { get; set; }
+        public DbSet<ActiveTask> ActiveTasks { get; set; }
+        public DbSet<DoneTask> DoneTasks { get; set; }
+        public DbSet<ExpiderTask> ExpiderTasks { get; set; }
     }
 }
 

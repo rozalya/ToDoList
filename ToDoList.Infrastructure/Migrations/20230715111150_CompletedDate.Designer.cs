@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDoList.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using ToDoList.Infrastructure.Data;
 namespace ToDoList.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230715111150_CompletedDate")]
+    partial class CompletedDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,42 +226,11 @@ namespace ToDoList.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ToDoList.Infrastructure.Data.ActiveTask", b =>
+            modelBuilder.Entity("ToDoList.Infrastructure.Data.NewTask", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsImportant")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ActiveTasks");
-                });
-
-            modelBuilder.Entity("ToDoList.Infrastructure.Data.DoneTask", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ClosingStatus")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("CompletedDate")
                         .HasColumnType("datetime2");
@@ -267,31 +238,8 @@ namespace ToDoList.Infrastructure.Data.Migrations
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsImportant")
+                    b.Property<bool>("IsClosed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DoneTasks");
-                });
-
-            modelBuilder.Entity("ToDoList.Infrastructure.Data.ExpiderTask", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DueDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsImportant")
                         .HasColumnType("bit");
@@ -307,7 +255,7 @@ namespace ToDoList.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExpiderTasks");
+                    b.ToTable("NewTasks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

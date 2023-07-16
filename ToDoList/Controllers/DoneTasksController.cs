@@ -5,21 +5,21 @@ using ToDoList.Core.Contracts;
 
 namespace ToDoList.Controllers
 {
-    public class ExpiredTasksController : BaseController
+    public class DoneTasksController : BaseController
     {
-        private readonly IExpiredTasksService expiredTasksService;
+        private readonly IDoneTasksService  doneTasksService;
         private readonly UserManager<IdentityUser> userManager;
 
-        public ExpiredTasksController(IExpiredTasksService _expiredTasksService,
+        public DoneTasksController(IDoneTasksService _doneTasksService,
            UserManager<IdentityUser> _userManager)
         {
-            expiredTasksService = _expiredTasksService;
+            doneTasksService = _doneTasksService;
             userManager = _userManager;
         }
-        public IActionResult AllExpiredTasks()
+        public IActionResult AllDoneTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = expiredTasksService.GetAllExpiredTasks(userId);
+            var model = doneTasksService.GetAllDoneTasks(userId);
             return View(model);
         }
     }

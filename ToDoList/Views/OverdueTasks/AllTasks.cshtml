@@ -1,0 +1,86 @@
+﻿﻿@using ToDoList.Core.Models
+@model TasksListViewModel
+
+@{
+    ViewData["Title"] = "Overdue Tasks";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <body onload="disableRow()">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Overdue Tasks</h3>
+            </div>
+
+            <div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info" onload="myFunction()">
+                            <thead>
+                                <tr>
+                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Note</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Expired on</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Is Important</th>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.TaskViewModel)
+                                {
+                                    <tr class="@(@task.IsColsed ? "row-disabled" : "odd")">
+                                        <td class="dtr-control sorting_1" tabindex="0" style="width: 60%">@task.Note</td>
+                                        <td class="dtr-control sorting_1" tabindex="0" style="width: 15%">@task.DueDate.Value.ToShortDateString()</td>
+                                        <td class="dtr-control sorting_1" tabindex="1" style="width: 25%">
+                                            <div class="row">
+                                                @if (task.IsImportant == true)
+                                                {
+                                                    <i class="fas fa-exclamation col-2"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="col-2"></i>
+                                                }
+                                                <form method="get" asp-action="EditTask" asp-route-Id="@task.Id" asp-controller="Tasks">
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
+                                                        <span>
+                                                            <i class="fas fa-pen"></i>
+                                                        </span>
+                                                    </button>
+                                                </form>
+                                                <form method="post" asp-action="CloseTask" asp-route-Id="@task.Id" asp-controller="OverdueTasks">
+                                                    <span id="confirmDeleteSpan_@task.Id" style="display:none">
+                                                        <span>Are you sure you want to close the task?</span>
+                                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                                        <a href="#" class="btn btn-primary"
+                                                   onclick="confirmDelete('@task.Id', false)">No</a>
+                                                    </span>
+
+                                                    <span id="deleteSpan_@task.Id">
+                                                        <a href="#" class="btn btn-danger"
+                                                   onclick="confirmDelete('@task.Id', true)">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </span>
+                                                </form>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </body>
+}
+
+@section Scripts {
+<script src="~/js/CustomScript.js"></script>
+}
+
+

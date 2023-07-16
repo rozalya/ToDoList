@@ -5,16 +5,16 @@ using ToDoList.Infrastructure.Data.Repositories;
 
 namespace ToDoList.Core.Services
 {
-    public class ExpiredTasksService : IExpiredTasksService
+    public class DoneTasksService : IDoneTasksService
     {
         private readonly IApplicatioDbRepository repo;
-        public ExpiredTasksService(IApplicatioDbRepository _repo)
+        public DoneTasksService(IApplicatioDbRepository _repo)
         {
             repo = _repo;
         }
-        public TasksListViewModel GetAllExpiredTasks(string userId)
+        public TasksListViewModel GetAllDoneTasks(string userId)
         {
-            var userTasks =  repo.All<ExpiderTask>()
+            var userTasks = repo.All<DoneTask>()
             .Where(task => task.UserId == userId)
             .Select(t => new TaskViewModel()
             {
