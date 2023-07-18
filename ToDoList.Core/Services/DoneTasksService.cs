@@ -29,5 +29,36 @@ namespace ToDoList.Core.Services
                 TaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
             };
         }
+
+        public async Task ReopenTask(Guid Id)
+        {
+            var taskToReopen = await repo.GetByIdAsync<DoneTask>(Id);
+            var activeTask = new ActiveTask
+            {
+                Id = taskToReopen.Id,
+                UserId = taskToReopen.UserId,
+                Note = taskToReopen.Note,
+                DueDate = taskToReopen.DueDate,
+                IsImportant = taskToReopen.IsImportant,
+            };
+
+            await repo.AddAsync(
+                activeTask);
+            repo.SaveChanges();
+            await repo.DeleteAsync<DoneTask>(Id);
+            repo.SaveChanges();
+        }
+
+        public async Task<TaskViewModel> GetTask(Guid taskId)
+        {
+            var task = await repo.GetByIdAsync<DoneTask>(taskId);
+            return new TaskViewModel()
+            {
+                Id = task.Id,
+                Note = task.Note,
+                DueDate = task.DueDate.Value,
+                IsImportant = task.IsImportant
+            };
+        }
     }
 }

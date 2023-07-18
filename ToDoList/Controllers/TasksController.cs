@@ -2,152 +2,50 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
-using ToDoList.Core.Models;
 
 namespace ToDoList.Controllers
 {
-    public class TasksController : Controller
+    public class TasksController : BaseController
     {
-        private readonly ITasksService taskService;
+        private readonly ITasksService tasksService;
         private readonly UserManager<IdentityUser> userManager;
 
-        public TasksController(ITasksService _addNewTaskService,
+        public TasksController(ITasksService _tasksService,
            UserManager<IdentityUser> _userManager)
         {
-            taskService = _addNewTaskService;
+            tasksService = _tasksService;
             userManager = _userManager;
-        }
-
-        // GET: AddNewTaskController
-        [HttpGet]
-        public IActionResult AddNewTask()
-        {
-            return View();
-        }
-
-        // GET: AddNewTaskController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-
+        }    
         public ActionResult AllTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = taskService.GetAllTasks(userId);
+            var model = tasksService.GetAllTasks(userId);
             return View(model);
         }
 
         public ActionResult ImportantTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = taskService.GetImportantTasks(userId);
+            var model = tasksService.GetImportantTasks(userId);
             return View(model);
         }
 
         public ActionResult PlannedTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = taskService.GetPlannedTasks(userId);
+            var model = tasksService.GetPlannedTasks(userId);
             return View(model);
         }
 
         public ActionResult TodayTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = taskService.GetTodayTasks(userId);
+            var model = tasksService.GetTodayTasks(userId);
             return View(model);
         }
 
         // POST: AddNewTaskController/Create
 
-        [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public IActionResult AddNewTask(TaskViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    taskService.NewTask(model, userId);
-                }
-                catch (ArgumentException ae)
-                {
-                    return BadRequest(ae.Message);
-                }
-
-                return View("~/Views/Home/Index.cshtml");
-            }
-
-            return View();
-        }
-
-        // GET: AddNewTaskController/Edit/5
-        public async Task<IActionResult> EditTask(Guid Id)
-        {
-            var task = await taskService.GetTask(Id);
-            return View(task);
-        }
-
-        // POST: AddNewTaskController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTask(TaskViewModel model)
-        {
-           if (User.Identity.IsAuthenticated)
-           {
-                try
-                {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    await taskService.EditTask(model, userId);
-                    return RedirectToAction("AllTasks");
-                }
-                catch
-                {
-                    return View();
-                }
-           }
-            return View();
-        }
-
-        // GET: AddNewTaskController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AddNewTaskController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteTask(Guid Id)
-        {
-            try
-            {
-                await taskService.DeleteTask(Id);
-                return RedirectToAction("AllTasks");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CompleteTask(Guid Id)
-        {
-            try
-            {
-                await taskService.CompleteTask(Id);
-                return RedirectToAction("AllTasks");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      
     }
 }

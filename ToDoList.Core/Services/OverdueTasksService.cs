@@ -41,6 +41,24 @@ namespace ToDoList.Core.Services
                 TaskViewModel = userTasks.Result.OrderBy(x => x.DueDate).ToList()
             };
         }
+
+        public async Task EditDate(TaskViewModel taskViewModel, string userId)
+        {
+            var taskToUpdate = await repo.GetByIdAsync<ActiveTask>(taskViewModel.Id);
+            taskToUpdate.DueDate = taskViewModel.DueDate;
+           /* var taskToUpdate = new ActiveTask
+            {
+                Id = taskViewModel.Id,
+                Note = taskViewModel.Note,
+                DueDate = taskViewModel.DueDate,
+                IsImportant = taskViewModel.IsImportant,
+                UserId = userId
+            };*/
+
+            repo.Update(taskToUpdate);
+            repo.SaveChanges();
+        }
+
         internal async Task<List<TaskViewModel>> AllOverdueTasks(string userId)
         {
             var userTasks = await repo.All<ActiveTask>()

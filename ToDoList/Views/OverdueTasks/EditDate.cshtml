@@ -1,8 +1,16 @@
-﻿<div class="card card-secondary">
+﻿﻿@using ToDoList.Core.Models
+@model TaskViewModel
+
+@{
+       ViewData["Title"] = "Edit Date";
+}
+
+<div>
+<div class="card card-secondary">
 <div class="card-header">
     <h3 class="card-title">Add new task</h3>
 </div>
-<form method="post"  asp-action="AddNewTask" asp-controller="Task">
+<form method="post"  asp-action="EditDate" asp-controller="OverdueTasks">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="card-body">
         <div class="form-group" data-select2-id="51">
@@ -13,7 +21,7 @@
                         <i class="fas fa-check"></i>
                     </span>
                 </div>
-                <input type="text" class="form-control" name="Note" placeholder="Task">
+                <input type="text" asp-for="Note" value="@Model.Note" class="form-control row-disabled" name="Note">
             </div>
         </div>
     </div>
@@ -22,24 +30,26 @@
             <div class="col-4">
                 <div class="form-group">
                     <label class="control-label">Due</label>
-                    <input type="date" id="date"  name="DueDate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                    <input type="date" asp-for="DueDate" value="@Model.DueDate.Value.ToString("yyyy-MM-dd")" id="date"  name="DueDate">
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" name="IsImportant" type="checkbox" value="false" onchange="this.value=this.checked">
+                        <input class="form-check-input row-disabled" asp-for="IsImportant" name="IsImportant" type="checkbox" value="@Model.IsImportant">
                         <label class="form-check-label">Important</label>
                     </div>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <button title="Add new task" type="submit" class="btn btn-primary float-right">Add</button>
+                    <button type="submit" onclick= "history.go(-1)" class="btn btn-primary float-right">Add</button>
 
                 </div>
             </div>
         </div>
     </div>
 </form>
+</div>
+
 </div>

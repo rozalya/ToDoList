@@ -30,39 +30,53 @@
                                         <td class="dtr-control sorting_1" tabindex="0" style="width: 60%">@task.Note</td>
                                         <td class="dtr-control sorting_1" tabindex="0" style="width: 15%">@task.DueDate.Value.ToShortDateString()</td>
                                         <td class="dtr-control sorting_1" tabindex="1" style="width: 25%">
-                                            <div class="row">
+                                            <div class="nav-item d-none d-sm-inline-block" style="display: inline-flex!important">
                                                 @if (task.IsImportant == true)
                                                 {
-                                                    <i class="fas fa-exclamation col-2"></i>
+                                                    <i class="fas fa-exclamation" style="padding: 1rem"></i>
                                                 }
                                                 else
                                                 {
-                                                    <i class="col-2"></i>
+                                                    <i class="col-2" style="padding: 1rem"></i>
                                                 }
-                                                <form method="get" asp-action="EditTask" asp-route-Id="@task.Id" asp-controller="Tasks">
-                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                    <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
-                                                        <span>
-                                                            <i class="fas fa-pen"></i>
-                                                        </span>
-                                                    </button>
+                                                <a asp-action="Details" asp-route-Id="@task.Id" asp-controller="OverdueTasks" class="nav-link">
+                                                    Task Details
+                                                    <i class="fas fa-arrow-up-right-from-square"></i>
+                                                </a>
+                                            </div>
+                                            @*<div class="row">
+                                                @if (task.IsImportant == true)
+                                                {
+                                                <i class="fas fa-exclamation col-2"></i>
+                                                }
+                                                else
+                                                {
+                                                <i class="col-2"></i>
+                                                }
+                                                <form method="get" asp-action="EditTask" asp-route-Id="@task.Id" asp-controller="Task">
+                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
+                                                <span>
+                                                <i class="fas fa-pen"></i>
+                                                </span>
+                                                </button>
                                                 </form>
                                                 <form method="post" asp-action="CloseTask" asp-route-Id="@task.Id" asp-controller="OverdueTasks">
-                                                    <span id="confirmDeleteSpan_@task.Id" style="display:none">
-                                                        <span>Are you sure you want to close the task?</span>
-                                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                                        <a href="#" class="btn btn-primary"
-                                                   onclick="confirmDelete('@task.Id', false)">No</a>
-                                                    </span>
+                                                <span id="confirmDeleteSpan_@task.Id" style="display:none">
+                                                <span>Are you sure you want to close the task?</span>
+                                                <button type="submit" class="btn btn-danger">Yes</button>
+                                                <a href="#" class="btn btn-primary"
+                                                onclick="confirmDelete('@task.Id', false)">No</a>
+                                                </span>
 
-                                                    <span id="deleteSpan_@task.Id">
-                                                        <a href="#" class="btn btn-danger"
-                                                   onclick="confirmDelete('@task.Id', true)">
-                                                            <i class="fas fa-trash"></i>
-                                                        </a>
-                                                    </span>
+                                                <span id="deleteSpan_@task.Id">
+                                                <a href="#" class="btn btn-danger"
+                                                onclick="confirmDelete('@task.Id', true)">
+                                                <i class="fas fa-trash"></i>
+                                                </a>
+                                                </span>
                                                 </form>
-                                            </div>
+                                                </div>*@
                                         </td>
 
                                     </tr>

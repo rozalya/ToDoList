@@ -29,5 +29,11 @@ namespace ToDoList.Core.Services
                 TaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
             };
         }
+
+        public async Task DeleteTask(Guid Id)
+        {
+            await repo.DeleteAsync<ExpiderTask>(Id);
+            repo.SaveChanges();
+        }
     }
 }

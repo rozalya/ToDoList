@@ -39,14 +39,10 @@
                                                 {
                                                     <i class="col-2"></i>
                                                 }
-                                                <form method="get" asp-action="EditTask" asp-route-Id="@task.Id" asp-controller="Tasks">
-                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                    <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
-                                                        <span>
-                                                            <i class="fas fa-pen"></i>
-                                                        </span>
-                                                    </button>
-                                                </form>                                               
+                                                  <a asp-action="Details" asp-route-Id="@task.Id" asp-controller="DoneTasks" class="nav-link">
+                                                    Task Details
+                                                    <i class="fas fa-arrow-up-right-from-square"></i>
+                                                </a>                                             
                                             </div>
                                         </td>
 

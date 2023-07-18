@@ -22,5 +22,20 @@ namespace ToDoList.Controllers
             var model = expiredTasksService.GetAllExpiredTasks(userId);
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteTask(Guid Id)
+        {
+            try
+            {
+                await expiredTasksService.DeleteTask(Id);
+                return RedirectToAction("AllExpiredTasks");
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

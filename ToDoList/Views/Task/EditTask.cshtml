@@ -10,7 +10,7 @@
 <div class="card-header">
     <h3 class="card-title">Add new task</h3>
 </div>
-<form method="post"  asp-action="EditTask" asp-controller="Tasks">
+<form method="post"  asp-action="EditTask" asp-controller="Task">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="card-body">
         <div class="form-group" data-select2-id="51">
@@ -30,7 +30,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <label class="control-label">Due</label>
-                    <input type="date" asp-for="DueDate" value="@Model.DueDate" id="date"  name="DueDate">
+                    <input type="date" asp-for="DueDate" value="@Model.DueDate.Value.ToString("yyyy-MM-dd")" id="date"  name="DueDate">
                 </div>
             </div>
             <div class="col-4">
@@ -43,7 +43,7 @@
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary float-right">Add</button>
+                    <button type="submit" onclick= "history.go(-1)" class="btn btn-primary float-right">Add</button>
 
                 </div>
             </div>

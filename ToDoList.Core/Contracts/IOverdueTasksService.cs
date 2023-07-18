@@ -6,5 +6,6 @@ namespace ToDoList.Core.Contracts
     {
        TasksListViewModel GetAllOverdueTasks(string userId);
        Task CloseTask(Guid Id);
+       Task EditDate(TaskViewModel taskViewModel, string userId);
     }
 }

@@ -9,13 +9,16 @@ namespace ToDoList.Controllers
     public class OverdueTasksController : BaseController
     {
         private readonly IOverdueTasksService overdueTasks;
+        private readonly ITaskService taskService;
         private readonly UserManager<IdentityUser> userManager;
 
         public OverdueTasksController(IOverdueTasksService _overdueTasks,
-           UserManager<IdentityUser> _userManager)
+           UserManager<IdentityUser> _userManager,
+           ITaskService _taskService)
         {
             overdueTasks = _overdueTasks;
             userManager = _userManager;
+            taskService = _taskService;
         }
         public IActionResult AllTasks()
         {
@@ -38,6 +41,38 @@ namespace ToDoList.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var task = await taskService.GetTask(id);
+            return View(task);
+        }
+        public async Task<IActionResult> EditDate(Guid Id)
+        {
+            var task = await taskService.GetTask(Id);
+            return View(task);
+        }
+
+        // POST: AddNewTaskController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDate(TaskViewModel model)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    await overdueTasks.EditDate(model, userId);
+                    return RedirectToAction("Details", new { Id = model.Id });
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            return View();
         }
     }
 }
