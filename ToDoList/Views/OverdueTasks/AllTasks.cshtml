@@ -26,8 +26,20 @@
                             <tbody>
                                 @foreach (var task in Model.TaskViewModel)
                                 {
-                                    <tr class="@(@task.IsColsed ? "row-disabled" : "odd")">
-                                        <td class="dtr-control sorting_1" tabindex="0" style="width: 60%">@task.Note</td>
+                                    <tr class="odd">
+                                        <td class="dtr-control sorting_1" tabindex="0" style="width: 60%">
+                                            <div>
+                                                @task.Note
+                                            </div>
+
+                                                <div>
+                                                    <small>
+                                                        <em>
+                                                            @task.Steps.Count steps
+                                                        </em>
+                                                    </small>
+                                                </div>
+                                        </td>
                                         <td class="dtr-control sorting_1" tabindex="0" style="width: 15%">@task.DueDate.Value.ToShortDateString()</td>
                                         <td class="dtr-control sorting_1" tabindex="1" style="width: 25%">
                                             <div class="nav-item d-none d-sm-inline-block" style="display: inline-flex!important">

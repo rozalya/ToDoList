@@ -4,6 +4,10 @@ namespace ToDoList.Infrastructure.Data
 {
     public class ActiveTask
     {
+        public ActiveTask()
+        {
+            this.Steps = new HashSet<Step>();
+        }
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -18,5 +22,6 @@ namespace ToDoList.Infrastructure.Data
 
         [Range(typeof(bool), "true", "true")]
         public bool IsImportant { get; set; }
+        public ICollection<Step> Steps { get; set; }
     }
 }

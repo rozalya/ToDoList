@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ToDoList.Infrastructure.Data;
 
 namespace ToDoList.Core.Models
 {
@@ -14,6 +15,8 @@ namespace ToDoList.Core.Models
         public bool IsImportant { get; set; }
         public bool IsColsed{ get; set; }
         public DateTime? CompletedDate { get; set; }
+
+        public ICollection<Step>? Steps { get; set; } = new List<Step>();
 
     }
 }

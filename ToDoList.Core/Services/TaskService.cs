@@ -1,6 +1,7 @@
 ﻿using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
+using ToDoList.Infrastructure.Data.Migrations;
 using ToDoList.Infrastructure.Data.Repositories;
 
 namespace ToDoList.Core.Services
@@ -50,14 +51,22 @@ namespace ToDoList.Core.Services
             /* var task = await repo.All<ActiveTask>()
                .FirstOrDefaultAsync(t => t.Id.ToString() == taskId);*/
             var task = await repo.GetByIdAsync<ActiveTask>(taskId);
-            var test = task.DueDate.Value.ToString("dd-MM-yyyy");
-            return new TaskViewModel()
+            //var f = await repo.All<Step>();
+            var test =  new TaskViewModel()
             {
                 Id = task.Id,
                 Note = task.Note,
                 DueDate = task.DueDate,
-                IsImportant = task.IsImportant
+                IsImportant = task.IsImportant,  
+                Steps = task.Steps
             };
+            return test;
+        }
+
+        public void  GetFullTask()
+        {
+            var f = repo.All<Step>();
+            var f1 = repo.All<Step>();
         }
 
         public async Task DeleteTask(Guid Id)
@@ -85,5 +94,19 @@ namespace ToDoList.Core.Services
             await repo.DeleteAsync<ActiveTask>(Id);
             repo.SaveChanges();
         }
+
+        public async Task AddStep(string stepText, Guid TaskId)
+        {
+            var task = await repo.GetByIdAsync<ActiveTask>(TaskId);
+
+            var stepToAdd = new Step()
+            {
+                Title = stepText,
+            };
+
+            task.Steps.Add(stepToAdd);
+            repo.SaveChanges();
+        }
+
     }
 }

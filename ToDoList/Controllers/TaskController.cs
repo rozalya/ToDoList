@@ -28,6 +28,7 @@ namespace ToDoList.Controllers
         // GET: AddNewTaskController/Details/5
         public async Task<IActionResult> Details(Guid id)
         {
+            taskService.GetFullTask();
             var task = await taskService.GetTask(id);
             return View(task);
         }
@@ -59,6 +60,13 @@ namespace ToDoList.Controllers
         public async Task<IActionResult> EditTask(Guid Id)
         {
             var task = await taskService.GetTask(Id);
+            return View(task);
+        }
+
+        public async Task<IActionResult> GetSteps(Guid Id)
+        {
+            var task = await taskService.GetTask(Id);
+
             return View(task);
         }
 
@@ -111,6 +119,14 @@ namespace ToDoList.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddNewStep(string Note, Guid Id)
+        {
+            await taskService.AddStep(Note, Id);
+            return RedirectToAction("Details", new { Id });
         }
     }
 }

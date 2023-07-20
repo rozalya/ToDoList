@@ -11,11 +11,22 @@
                 @foreach (var task in Model.TaskViewModel)
                 {
                     <tr class="odd">
-                        <td class="dtr-control sorting_1" tabindex="0" style="width: 60%">@task.Note</td>
+                        <td class="dtr-control sorting_1" tabindex="0" style="width: 60%">
+                            <div>
+                                @task.Note
+                            </div>
+                            <div>
+                                <small>
+                                    <em>
+                                        0 steps
+                                    </em>
+                                </small>
+                            </div>
+                        </td>
                         <td class="dtr-control sorting_1" tabindex="0" style="width: 15%">@task.DueDate.ToShortDateString()</td>
                         <td class="dtr-control sorting_1" tabindex="1" style="width: 25%">
                             <div class="nav-item d-none d-sm-inline-block" style="display: inline-flex!important">
-                                 @if (task.IsImportant == true)
+                                @if (task.IsImportant == true)
                                 {
                                     <i class="fas fa-exclamation" style="padding: 1rem"></i>
                                 }
@@ -24,44 +35,44 @@
                                     <i class="col-2" style="padding: 1rem"></i>
                                 }
                                 <a asp-action="Details" asp-route-Id="@task.Id" asp-controller="Task" class="nav-link">
-                                     Task Details
+                                    Task Details
                                     <i class="fas fa-arrow-up-right-from-square"></i>
                                 </a>
                             </div>
-                           @* <div class="row">
-                               
+                            @* <div class="row">
+
                                 <form method="post" asp-action="CompleteTask" asp-route-Id="@task.Id" asp-controller="Task">
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
-                                        <span>
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                    </button>
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
+                                <span>
+                                <i class="fas fa-check"></i>
+                                </span>
+                                </button>
                                 </form>
                                 <form method="get" asp-action="EditTask" asp-route-Id="@task.Id" asp-controller="Task">
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
-                                        <span>
-                                            <i class="fas fa-pen"></i>
-                                        </span>
-                                    </button>
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
+                                <span>
+                                <i class="fas fa-pen"></i>
+                                </span>
+                                </button>
                                 </form>
                                 <form method="post" asp-action="DeleteTask" asp-route-Id="@task.Id" asp-controller="Task">
-                                    <span id="confirmDeleteSpan_@task.Id" style="display:none">
-                                        <span>Are you sure you want to delete?</span>
-                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                        <a href="#" class="btn btn-primary"
-                                       onclick="confirmDelete('@task.Id', false)">No</a>
-                                    </span>
+                                <span id="confirmDeleteSpan_@task.Id" style="display:none">
+                                <span>Are you sure you want to delete?</span>
+                                <button type="submit" class="btn btn-danger">Yes</button>
+                                <a href="#" class="btn btn-primary"
+                                onclick="confirmDelete('@task.Id', false)">No</a>
+                                </span>
 
-                                    <span id="deleteSpan_@task.Id">
-                                        <a href="#" class="btn btn-danger"
-                                       onclick="confirmDelete('@task.Id', true)">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </span>
+                                <span id="deleteSpan_@task.Id">
+                                <a href="#" class="btn btn-danger"
+                                onclick="confirmDelete('@task.Id', true)">
+                                <i class="fas fa-trash"></i>
+                                </a>
+                                </span>
                                 </form>
-                            </div>*@
+                                </div>*@
                         </td>
 
                     </tr>
