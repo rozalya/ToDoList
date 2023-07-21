@@ -10,6 +10,5 @@ namespace ToDoList.Core.Contracts
         Task DeleteTask(Guid Id);
         Task CompleteTask(Guid Id);
         Task AddStep(string stepText, Guid TaskId);
-        void GetFullTask();
     }
 }

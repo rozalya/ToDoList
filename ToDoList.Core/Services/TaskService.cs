@@ -1,4 +1,5 @@
-﻿using ToDoList.Core.Contracts;
+﻿using System.Linq;
+using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Data.Migrations;
@@ -48,25 +49,17 @@ namespace ToDoList.Core.Services
 
         public async Task<TaskViewModel> GetTask(Guid taskId)
         {
-            /* var task = await repo.All<ActiveTask>()
-               .FirstOrDefaultAsync(t => t.Id.ToString() == taskId);*/
-            var task = await repo.GetByIdAsync<ActiveTask>(taskId);
-            //var f = await repo.All<Step>();
-            var test =  new TaskViewModel()
-            {
-                Id = task.Id,
-                Note = task.Note,
-                DueDate = task.DueDate,
-                IsImportant = task.IsImportant,  
-                Steps = task.Steps
-            };
-            return test;
-        }
+            var activeTask = await repo.GetByIdAsync<ActiveTask>(taskId);
+            var TaskSteps = repo.All<Step>().Where(x => x.TaskFK == taskId).ToList();
 
-        public void  GetFullTask()
-        {
-            var f = repo.All<Step>();
-            var f1 = repo.All<Step>();
+            return  new TaskViewModel()
+            {
+                Id = activeTask.Id,
+                Note = activeTask.Note,
+                DueDate = activeTask.DueDate,
+                IsImportant = activeTask.IsImportant,
+                Steps = TaskSteps
+            };
         }
 
         public async Task DeleteTask(Guid Id)

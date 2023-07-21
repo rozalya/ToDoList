@@ -16,7 +16,7 @@ namespace ToDoList.Core.Models
         public bool IsColsed{ get; set; }
         public DateTime? CompletedDate { get; set; }
 
-        public ICollection<Step>? Steps { get; set; } = new List<Step>();
+        public ICollection<Step> Steps { get; set; } = new List<Step>();
 
     }
 }

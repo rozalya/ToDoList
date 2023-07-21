@@ -65,6 +65,12 @@
                     </tbody>
                 </table>
                 <div class="form-group col-4">
+                     <ul style="list-style-type:circle">
+                        @foreach (var step in @Model.Steps)
+                        {
+                            <li>@step.Title</li>
+                        }
+                    </ul>
                     <form method="post" asp-action="AddNewStep" asp-route-Id="@Model.Id" asp-controller="Task">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <label class="control-label">Add new step</label>
@@ -73,12 +79,7 @@
                             <button title="Add new step" type="submit" class="btn btn-primary float-right">Add</button>
                         </div>
                     </form>
-                    <ul style="list-style-type:circle">
-                        @foreach (var step in @Model.Steps)
-                        {
-                            <li>step</li>
-                        }
-                    </ul>
+                   
                 </div>
             </div>
         </div>

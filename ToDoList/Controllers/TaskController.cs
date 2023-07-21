@@ -28,7 +28,6 @@ namespace ToDoList.Controllers
         // GET: AddNewTaskController/Details/5
         public async Task<IActionResult> Details(Guid id)
         {
-            taskService.GetFullTask();
             var task = await taskService.GetTask(id);
             return View(task);
         }

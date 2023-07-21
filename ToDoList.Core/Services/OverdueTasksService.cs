@@ -38,7 +38,7 @@ namespace ToDoList.Core.Services
             var userTasks = AllOverdueTasks(userId);
             return new TasksListViewModel()
             {
-                TaskViewModel = userTasks.Result.OrderBy(x => x.DueDate).ToList()
+                TaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
             };
         }
 
@@ -59,20 +59,30 @@ namespace ToDoList.Core.Services
             repo.SaveChanges();
         }
 
-        internal async Task<List<TaskViewModel>> AllOverdueTasks(string userId)
+        internal List<TaskViewModel> AllOverdueTasks(string userId)
         {
-            var userTasks = await repo.All<ActiveTask>()
+            var openTasks = repo.All<ActiveTask>()
               .Where(task => task.UserId == userId &&
               task.DueDate < DateTime.Today)
-              .Select(t => new TaskViewModel()
-              {
-                  Id = t.Id,
-                  Note = t.Note,
-                  DueDate = t.DueDate,
-                  IsImportant = t.IsImportant,
-              }).ToListAsync();
+              .ToList();
 
-            return userTasks;
+            openTasks.ForEach(task =>
+            {
+                var currentSteps = repo.All<Step>().Where(x => x.TaskFK == task.Id).ToList();
+                task.Steps = currentSteps;
+            });
+
+            var result = openTasks.Select(task => new TaskViewModel()
+            {
+                Id = task.Id,
+                Note = task.Note,
+                DueDate = task.DueDate,
+                IsImportant = task.IsImportant,
+                Steps = task.Steps
+
+            }).ToList();
+
+            return result;
         }
     }
 
