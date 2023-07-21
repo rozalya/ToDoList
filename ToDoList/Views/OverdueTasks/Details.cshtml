@@ -44,7 +44,7 @@
                                     </form>
                                     <form title="Close task" method="post" asp-action="CloseTask" asp-route-Id="@Model.Id" asp-controller="OverdueTasks">
                                         <span id="confirmDeleteSpan_@Model.Id" style="display:none">
-                                            <span>Are you sure you want to close the task?</span>
+                                            <span>Are you sure you want to close the task, some of the data will be deleted permanently?</span>
                                             <button type="submit" class="btn btn-danger">Yes</button>
                                             <a href="#" class="btn btn-primary"
                                                onclick="confirmDelete('@Model.Id', false)">No</a>

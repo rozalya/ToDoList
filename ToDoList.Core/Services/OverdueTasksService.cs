@@ -16,6 +16,10 @@ namespace ToDoList.Core.Services
 
         public async Task CloseTask(Guid Id)
         {
+            var stepsToRemove = repo.All<Step>()
+                .Where(x => x.TaskFK == Id).ToList();
+            repo.DeleteRange(stepsToRemove);
+
             var taskToClose = await repo.GetByIdAsync<ActiveTask>(Id);
             var expiredTask = new ExpiderTask
             {

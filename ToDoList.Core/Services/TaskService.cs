@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using ToDoList.Core.Contracts;
+﻿using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
-using ToDoList.Infrastructure.Data.Migrations;
 using ToDoList.Infrastructure.Data.Repositories;
 
 namespace ToDoList.Core.Services
