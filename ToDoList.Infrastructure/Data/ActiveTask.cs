@@ -7,6 +7,7 @@ namespace ToDoList.Infrastructure.Data
         public ActiveTask()
         {
             this.Steps = new HashSet<Step>();
+            this.Statements = new HashSet<Statement>();
         }
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -23,5 +24,6 @@ namespace ToDoList.Infrastructure.Data
         [Range(typeof(bool), "true", "true")]
         public bool IsImportant { get; set; }
         public ICollection<Step> Steps { get; set; }
+        public ICollection<Statement> Statements { get; set; }
     }
 }

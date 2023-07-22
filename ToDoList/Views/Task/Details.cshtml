@@ -57,6 +57,14 @@
                                             </a>
                                         </span>
                                     </form>
+                                     <form method="get" asp-action="Index" asp-route-Id="@Model.Id" asp-controller="Statements">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <button title="What if" type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
+                                            <span>
+                                                <i class="fas fa-question"></i>
+                                            </span>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
 
@@ -74,12 +82,11 @@
                     <form method="post" asp-action="AddNewStep" asp-route-Id="@Model.Id" asp-controller="Task">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <label class="control-label">Add new step</label>
-                        <input type="text" class="form-control" name="Note" placeholder="Task">
-                        <div class="form-group">
-                            <button title="Add new step" type="submit" class="btn btn-primary float-right">Add</button>
+                        <div style="display: inline-flex">
+                        <input type="text" class="form-control" name="Note" placeholder="Task" style="margin-right: 0.5rem">
+                        <button title="Add new step" type="submit" class="btn btn-primary float-right">Add</button>
                         </div>
                     </form>
-                   
                 </div>
             </div>
         </div>

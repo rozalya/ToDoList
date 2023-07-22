@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using ToDoList.Infrastructure.Data.Migrations;
 using ToDoList.Infrastructure.InitialSeed;
 
 namespace ToDoList.Infrastructure.Data
@@ -20,7 +19,15 @@ namespace ToDoList.Infrastructure.Data
                 .HasMany(e => e.Steps)
                 .WithOne(e => e.ActiveTask)
                 .HasForeignKey(e => e.TaskFK)
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ActiveTask>()
+                .HasMany(e => e.Statements)
+                .WithOne(e => e.ActiveTask)
+                .HasForeignKey(e => e.TaskFK)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -29,6 +36,7 @@ namespace ToDoList.Infrastructure.Data
         public DbSet<DoneTask> DoneTasks { get; set; }
         public DbSet<ExpiderTask> ExpiderTasks { get; set; }
         public DbSet<Step> Steps { get; set; }
+        public DbSet<Statement> Statements { get; set; }
     }
 }
 

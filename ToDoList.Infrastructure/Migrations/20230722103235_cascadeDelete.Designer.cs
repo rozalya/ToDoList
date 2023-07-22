@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDoList.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using ToDoList.Infrastructure.Data;
 namespace ToDoList.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230722103235_cascadeDelete")]
+    partial class cascadeDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,32 +312,6 @@ namespace ToDoList.Infrastructure.Data.Migrations
                     b.ToTable("ExpiderTasks");
                 });
 
-            modelBuilder.Entity("ToDoList.Infrastructure.Data.Statement", b =>
-                {
-                    b.Property<Guid>("StatementId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("If")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<Guid>("TaskFK")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Then")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("StatementId");
-
-                    b.HasIndex("TaskFK");
-
-                    b.ToTable("Statements");
-                });
-
             modelBuilder.Entity("ToDoList.Infrastructure.Data.Step", b =>
                 {
                     b.Property<Guid>("StepId")
@@ -408,16 +384,6 @@ namespace ToDoList.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ToDoList.Infrastructure.Data.Statement", b =>
-                {
-                    b.HasOne("ToDoList.Infrastructure.Data.ActiveTask", "ActiveTask")
-                        .WithMany("Statements")
-                        .HasForeignKey("TaskFK")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("ActiveTask");
-                });
-
             modelBuilder.Entity("ToDoList.Infrastructure.Data.Step", b =>
                 {
                     b.HasOne("ToDoList.Infrastructure.Data.ActiveTask", "ActiveTask")
@@ -430,8 +396,6 @@ namespace ToDoList.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ToDoList.Infrastructure.Data.ActiveTask", b =>
                 {
-                    b.Navigation("Statements");
-
                     b.Navigation("Steps");
                 });
 #pragma warning restore 612, 618
