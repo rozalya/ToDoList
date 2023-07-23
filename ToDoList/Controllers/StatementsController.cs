@@ -6,7 +6,6 @@ namespace ToDoList.Controllers
 {
     public class StatementsController : BaseController
     {
-        public  string _Id; 
         private readonly IStatementService statementService;
         private readonly UserManager<IdentityUser> userManager;
 
@@ -19,16 +18,19 @@ namespace ToDoList.Controllers
 
         public IActionResult Index(string Id)
         {
-            _Id = Id;
+            _id = Id;
             return View();
         }
 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddStatement(string IfText, string ThenText)
         {
-            var taskId = _Id;
-            //await statementService.AddStatement(IfText, ThenText, taskId);
-            return RedirectToAction("Details", new { taskId });
+            var taskId = Guid.Parse(_id);
+            await statementService.AddStatement(IfText, ThenText, taskId);
+            return RedirectToAction("Details","Task", new { Id = taskId });
+
         }
+
+        public static string _id { get; set; }
     }
 }

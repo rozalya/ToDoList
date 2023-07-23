@@ -8,5 +8,7 @@ namespace ToDoList.Core.Contracts
         TasksListViewModel GetImportantTasks(string userId);
         TasksListViewModel GetPlannedTasks(string userId);
         TasksListViewModel GetTodayTasks(string userId);    
+        TasksListViewModel GetTaskWithSteps(string userId);    
+        TasksListViewModel GetTaskWithStatements(string userId);    
     }
 }

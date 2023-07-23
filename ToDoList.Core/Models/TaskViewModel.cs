@@ -17,6 +17,7 @@ namespace ToDoList.Core.Models
         public DateTime? CompletedDate { get; set; }
 
         public ICollection<Step> Steps { get; set; } = new List<Step>();
+        public ICollection<Statement> Statements { get; set; } = new List<Statement>();
 
     }
 }

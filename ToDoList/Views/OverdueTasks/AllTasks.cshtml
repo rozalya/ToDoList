@@ -32,13 +32,20 @@
                                                 @task.Note
                                             </div>
 
+                                            <div>
+                                                <small>
+                                                    <em>
+                                                        @task.Steps.Count steps
+                                                    </em>
+                                                </small>
                                                 <div>
                                                     <small>
                                                         <em>
-                                                            @task.Steps.Count steps
+                                                            @task.Statements.Count statements
                                                         </em>
                                                     </small>
                                                 </div>
+                                            </div>
                                         </td>
                                         <td class="dtr-control sorting_1" tabindex="0" style="width: 15%">@task.DueDate.Value.ToShortDateString()</td>
                                         <td class="dtr-control sorting_1" tabindex="1" style="width: 25%">

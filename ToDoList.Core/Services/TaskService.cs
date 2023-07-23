@@ -49,6 +49,7 @@ namespace ToDoList.Core.Services
         {
             var activeTask = await repo.GetByIdAsync<ActiveTask>(taskId);
             var TaskSteps = repo.All<Step>().Where(x => x.TaskFK == taskId).ToList();
+            var TaskStatenets = repo.All<Statement>().Where(x => x.TaskFK == taskId).ToList();
 
             return  new TaskViewModel()
             {
@@ -56,7 +57,8 @@ namespace ToDoList.Core.Services
                 Note = activeTask.Note,
                 DueDate = activeTask.DueDate,
                 IsImportant = activeTask.IsImportant,
-                Steps = TaskSteps
+                Steps = TaskSteps,
+                Statements = TaskStatenets
             };
         }
 

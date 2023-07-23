@@ -12,7 +12,7 @@
         </li>
         <li class="nav-item">
             <a asp-controller="Tasks" asp-action="ImportantTasks" class="nav-link">
-                <i class="fas fa-pepper-hot"></i>
+                <i class="fas fa-exclamation"></i>
                 <p>
                     Important
                 </p>
@@ -27,10 +27,18 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="fas fa-plane-arrival fa-bounce"></i>
+             <a asp-controller="Tasks" asp-action="TaskWithSteps" class="nav-link">
+                <i class="fas fa-shoe-prints"></i>
                 <p>
-                    Incoming
+                    Task with steps
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+              <a asp-controller="Tasks" asp-action="TaskWithStatements" class="nav-link">
+                <i class="fas fa-question"></i>
+                <p>
+                    Task with statements
                 </p>
             </a>
         </li>
@@ -39,7 +47,7 @@
             <a asp-controller="Tasks" asp-action="AllTasks" class="nav-link">
                 <i class="fas fa-list"></i>
                 <p>
-                    All tasks
+                    All open tasks
                 </p>
             </a>
         </li>

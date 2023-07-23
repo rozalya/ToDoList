@@ -36,6 +36,18 @@ namespace ToDoList.Controllers
             var model = tasksService.GetPlannedTasks(userId);
             return View(model);
         }
+        public ActionResult TaskWithSteps()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = tasksService.GetTaskWithSteps(userId);
+            return View(model);
+        }
+        public ActionResult TaskWithStatements()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = tasksService.GetTaskWithStatements(userId);
+            return View(model);
+        }
 
         public ActionResult TodayTasks()
         {

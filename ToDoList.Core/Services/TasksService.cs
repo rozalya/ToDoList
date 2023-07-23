@@ -41,6 +41,26 @@ namespace ToDoList.Core.Services
             };
         }
 
+        public TasksListViewModel GetTaskWithSteps(string userId)
+        {
+            var userTasks = GetAllOpenTasks(userId).Where(task => task.Steps.Count > 0).ToList();
+
+            return new TasksListViewModel()
+            {
+                TaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
+            };
+        }
+
+        public TasksListViewModel GetTaskWithStatements(string userId)
+        {
+            var userTasks = GetAllOpenTasks(userId).Where(task => task.Statements.Count > 0).ToList();
+
+            return new TasksListViewModel()
+            {
+                TaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
+            };
+        }
+
         public TasksListViewModel GetAllTasks(string userId)
         {
             var userTasks = GetAllOpenTasks(userId);
@@ -62,6 +82,8 @@ namespace ToDoList.Core.Services
             {
                 var currentSteps = repo.All<Step>().Where(x => x.TaskFK == task.Id).ToList();
                 task.Steps = currentSteps;
+                var currentStatemets = repo.All<Statement>().Where(x => x.TaskFK == task.Id).ToList();
+                task.Statements = currentStatemets;
             });
 
            var result =  openTasks.Select(task => new TaskViewModel()
@@ -70,7 +92,8 @@ namespace ToDoList.Core.Services
                 Note = task.Note,
                 DueDate = task.DueDate,
                 IsImportant = task.IsImportant,
-                Steps = task.Steps
+                Steps = task.Steps,
+               Statements = task.Statements
               
             }).ToList();
 
