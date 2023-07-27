@@ -34,29 +34,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a asp-action="index" asp-controller="Home" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-action="AddNewTask" asp-controller="Task"class="nav-link">
+                    <a asp-action="AddNewTask" asp-controller="Task" class="nav-link">
                         New Task
                         <i class="fas fa-hourglass-start"></i>
                     </a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-action="AllTasks" asp-controller="OverdueTasks"class="nav-link">
+                    <a asp-action="AllTasks" asp-controller="OverdueTasks" class="nav-link">
                         Overdue Tasks
                         <i class="fas fa-hourglass-end"></i>
                     </a>
                 </li>
-                 <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-action="AllExpiredTasks" asp-controller="ExpiredTasks"class="nav-link">
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a asp-action="AllExpiredTasks" asp-controller="ExpiredTasks" class="nav-link">
                         Expired Tasks
                         <i class="fas fa-ban"></i>
                     </a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-action="AllDoneTasks" asp-controller="DoneTasks"class="nav-link">
+                    <a asp-action="AllDoneTasks" asp-controller="DoneTasks" class="nav-link">
                         Done Tasks
                         <i class="fas fa-check-double"></i>
                     </a>
                 </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item d-none d-sm-inline-block">
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default">Administration</button>
+                            <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu" role="menu" style="">
+                                <a asp-action="ListRoles" asp-controller="Administration" class="nav-link">Roles</a>
+                                <a asp-action="ListUsers" asp-controller="Administration" class="nav-link">Users</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </div>
+                    </li>                    
+                }
             </ul>
 
             <!-- Right navbar links -->
@@ -95,7 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-th-large"></i>
                     </a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
                         <button type="submit" class="nav-link btn btn-link text-dark">Log Out</button>
                         <i class="fas fa-door-open"></i>
@@ -150,9 +169,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="content">
                 <div class="container-fluid">
                     @RenderBody()
-                   @* <div>
+                    @* <div>
                         <partial name="_AddNewTask" />
-                    </div>*@
+                        </div>*@
                     <!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
@@ -188,5 +207,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/js/adminlte.min.js"></script>
     <script src="~/plugins/toastr/toastr.min.js"></script>
     @await RenderSectionAsync("Scripts", false)
-</body> 
+</body>
 </html>
