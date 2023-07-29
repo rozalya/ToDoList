@@ -28,6 +28,27 @@ builder.Services.AddControllersWithViews()
      })
     .AddMvcLocalization(LanguageViewLocationExpanderFormat.Suffix);
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DeleteRolePolicy",
+        policy => policy.RequireClaim("Delete Role"));
+
+    options.AddPolicy("EditRolePolicy",
+         policy => policy.RequireClaim("Edit Role"));
+
+    options.AddPolicy("InactiveTaskRolePolicy",
+       policy => policy.RequireClaim("Inactive Task Role"));
+
+    options.AddPolicy("AdminRolePolicy",
+        policy => policy.RequireRole("Admin"));
+
+    options.AddPolicy("StepsUserRolePolicy",
+       policy => policy.RequireRole("StepsUser"));
+
+    options.AddPolicy("StatementsUserRolePolicy",
+       policy => policy.RequireRole("StatementsUser"));
+});
+
 builder.Services.AddApplicationServices();
 var app = builder.Build();
 

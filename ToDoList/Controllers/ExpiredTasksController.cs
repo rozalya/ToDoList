@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
 
 namespace ToDoList.Controllers
 {
+    [Authorize(Policy = "InactiveTaskRolePolicy")]
     public class ExpiredTasksController : BaseController
     {
         private readonly IExpiredTasksService expiredTasksService;

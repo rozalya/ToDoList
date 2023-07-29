@@ -1,5 +1,4 @@
-﻿﻿@using ToDoList.Core.Models
-@model EditUserViewModel
+﻿@model EditUserViewModel
 
 @{
     ViewBag.Title = "Edit User";
@@ -54,11 +53,6 @@
             {
                 <h5 class="card-title">None at the moment</h5>
             }
-        </div>
-        <div class="card-footer">
-            <a asp-action="ManageUserRoles" asp-route-userId="@Model.Id" style="width:auto" class="btn btn-primary">
-                Manage Roles
-            </a>
         </div>
     </div>
 

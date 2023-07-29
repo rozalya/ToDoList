@@ -1,5 +1,11 @@
-﻿﻿@using ToDoList.Core.Models
-@model TaskViewModel
+﻿@model TaskViewModel
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+
+@inject IAuthorizationService authorizationService
+
+
 
 @{
     ViewData["Title"] = "Details";
@@ -62,14 +68,17 @@
                                                                 </a>
                                                             </span>
                                                         </form>
-                                                        <form method="get" asp-action="Index" asp-route-Id="@Model.Id" asp-controller="Statements">
-                                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                            <button title="What if" type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
-                                                                <span>
-                                                                    <i class="fas fa-question"></i>
-                                                                </span>
-                                                            </button>
-                                                        </form>
+                                                        @if ((await authorizationService.AuthorizeAsync(User, "StatementsUserRolePolicy")).Succeeded)
+                                                        {
+                                                            <form method="get" asp-action="Index" asp-route-Id="@Model.Id" asp-controller="Statements">
+                                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                                <button title="What if" type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
+                                                                    <span>
+                                                                        <i class="fas fa-question"></i>
+                                                                    </span>
+                                                                </button>
+                                                            </form>                                                            
+                                                        }
                                                     </div>
                                                 </td>
 
@@ -80,44 +89,49 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-group col-4">
-                                        <ul style="list-style-type:circle">
-                                            @foreach (var step in @Model.Steps)
-                                            {
-                                                <li>@step.Title</li>
-                                            }
-                                        </ul>
-                                        <form method="post" asp-action="AddNewStep" asp-route-Id="@Model.Id" asp-controller="Task">
-                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                            <label class="control-label">Add new step</label>
-                                            <div style="display: inline-flex">
-                                                <input type="text" class="form-control" name="Note" placeholder="Task" style="margin-right: 0.5rem">
-                                                <button title="Add new step" type="submit" class="btn btn-primary float-right">Add</button>
-                                            </div>
-                                        </form>
+                         @if ((await authorizationService.AuthorizeAsync(User, "StepsUserRolePolicy")).Succeeded)
+                        {
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="form-group col-4">
+                                            <ul style="list-style-type:circle">
+                                                @foreach (var step in @Model.Steps)
+                                                {
+                                                    <li>@step.Title</li>
+                                                }
+                                            </ul>
+                                            <form method="post" asp-action="AddNewStep" asp-route-Id="@Model.Id" asp-controller="Task">
+                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                <label class="control-label">Add new step</label>
+                                                <div style="display: inline-flex">
+                                                    <input type="text" class="form-control" name="Note" placeholder="Task" style="margin-right: 0.5rem">
+                                                    <button title="Add new step" type="submit" class="btn btn-primary float-right">Add</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-group col-4">
-                                        <label class="control-label">If... Then statements</label>
-                                        <ul style="list-style-type:circle">
-                                            @foreach (var step in @Model.Statements)
-                                            {
-                                                <li>@step.If</li>
-                                                <li>@step.Then</li>
-                                            }
-                                        </ul>
+                        }
+                        @if ((await authorizationService.AuthorizeAsync(User, "StatementsUserRolePolicy")).Succeeded)
+                        {
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="form-group col-9">
+                                            <label class="control-label">If... Then statements</label>
+                                            <ul style="list-style-type:circle">
+                                                @foreach (var step in @Model.Statements)
+                                                {
+                                                    <li><b>If: </b>@step.If -> <b>Then: </b>@step.Then</li>
+                                                }
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>                         
+                        }
                     </div>
                 </div>
 

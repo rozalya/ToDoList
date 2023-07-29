@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
@@ -122,6 +123,7 @@ namespace ToDoList.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "StepsUserRolePolicy")]
         public async Task<IActionResult> AddNewStep(string Note, Guid Id)
         {
             await taskService.AddStep(Note, Id);

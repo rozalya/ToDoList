@@ -1,4 +1,9 @@
-﻿<div class="row">
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+
+@inject IAuthorizationService authorizationService
+
+<div class="row">
     <div class="col-sm-12">
         <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
             <thead>
@@ -15,20 +20,28 @@
                             <div>
                                 @task.Note
                             </div>
-                            <div>
-                                <small>
-                                    <em>
-                                        @task.Steps.Count steps
-                                    </em>
-                                </small> 
+                            @if ((await authorizationService.AuthorizeAsync(User, "StepsUserRolePolicy")).Succeeded)
+                            {
                                 <div>
-                                     <small>
-                                    <em>
-                                       @task.Statements.Count statements
-                                    </em>
-                                </small>
+                                    <small>
+                                        <em>
+                                            @task.Steps.Count steps
+                                        </em>
+                                    </small>
                                 </div>
-                            </div>                            
+
+                            }
+                            @if ((await authorizationService.AuthorizeAsync(User, "StatementsUserRolePolicy")).Succeeded)
+                            {
+                                <div>
+                                    <small>
+                                        <em>
+                                            @task.Statements.Count statements
+                                        </em>
+                                    </small>
+                                </div>                                
+                            }
+
                         </td>
                         <td class="dtr-control sorting_1" tabindex="0" style="width: 15%">@task.DueDate.ToShortDateString()</td>
                         <td class="dtr-control sorting_1" tabindex="1" style="width: 25%">

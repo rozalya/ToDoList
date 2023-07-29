@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Core.Contracts;
 
 namespace ToDoList.Controllers
 {
+    [Authorize(Policy = "StatementsUserRolePolicy")]
     public class StatementsController : BaseController
     {
         private readonly IStatementService statementService;

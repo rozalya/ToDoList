@@ -1,4 +1,9 @@
-﻿<nav class="mt-2">
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+
+@inject IAuthorizationService authorizationService
+
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
@@ -26,22 +31,29 @@
                 </p>
             </a>
         </li>
-        <li class="nav-item">
-             <a asp-controller="Tasks" asp-action="TaskWithSteps" class="nav-link">
-                <i class="fas fa-shoe-prints"></i>
-                <p>
-                    Task with steps
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-              <a asp-controller="Tasks" asp-action="TaskWithStatements" class="nav-link">
-                <i class="fas fa-question"></i>
-                <p>
-                    Task with statements
-                </p>
-            </a>
-        </li>
+        @if ((await authorizationService.AuthorizeAsync(User, "StepsUserRolePolicy")).Succeeded)
+        {
+            <li class="nav-item">
+                 <a asp-controller="Tasks" asp-action="TaskWithSteps" class="nav-link">
+                    <i class="fas fa-shoe-prints"></i>
+                    <p>
+                        Task with steps
+                    </p>
+                </a>
+            </li>            
+        }
+        @if ((await authorizationService.AuthorizeAsync(User, "StatementsUserRolePolicy")).Succeeded)
+        {
+            <li class="nav-item">
+                  <a asp-controller="Tasks" asp-action="TaskWithStatements" class="nav-link">
+                    <i class="fas fa-question"></i>
+                    <p>
+                        Task with statements
+                    </p>
+                </a>
+            </li>
+           
+        }
         </li>
         <li class="nav-item">
             <a asp-controller="Tasks" asp-action="AllTasks" class="nav-link">

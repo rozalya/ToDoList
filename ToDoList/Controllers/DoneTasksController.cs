@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
-using ToDoList.Core.Models;
 
 namespace ToDoList.Controllers
 {
+    [Authorize(Policy = "InactiveTaskRolePolicy")]
     public class DoneTasksController : BaseController
     {
         private readonly IDoneTasksService  doneTasksService;

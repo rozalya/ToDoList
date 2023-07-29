@@ -1,5 +1,8 @@
-﻿﻿@using ToDoList.Core.Models
-@model TasksListViewModel
+﻿@model TasksListViewModel
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+
+@inject IAuthorizationService authorizationService
 
 @{
     ViewData["Title"] = "Overdue Tasks";
@@ -31,21 +34,27 @@
                                             <div>
                                                 @task.Note
                                             </div>
-
-                                            <div>
-                                                <small>
-                                                    <em>
-                                                        @task.Steps.Count steps
-                                                    </em>
-                                                </small>
+                                            @if ((await authorizationService.AuthorizeAsync(User, "StepsUserRolePolicy")).Succeeded)
+                                            {
+                                                <div>
+                                                    <small>
+                                                        <em>
+                                                            @task.Steps.Count steps
+                                                        </em>
+                                                    </small>
+                                                </div>                                               
+                                            }
+                                            @if ((await authorizationService.AuthorizeAsync(User, "StatementsUserRolePolicy")).Succeeded)
+                                            {
                                                 <div>
                                                     <small>
                                                         <em>
                                                             @task.Statements.Count statements
                                                         </em>
                                                     </small>
-                                                </div>
-                                            </div>
+                                                </div>                                                
+                                            }
+
                                         </td>
                                         <td class="dtr-control sorting_1" tabindex="0" style="width: 15%">@task.DueDate.Value.ToShortDateString()</td>
                                         <td class="dtr-control sorting_1" tabindex="1" style="width: 25%">

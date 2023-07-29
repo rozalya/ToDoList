@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDoList.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using ToDoList.Infrastructure.Data;
 namespace ToDoList.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230728080119_deleteChange")]
+    partial class deleteChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,7 +249,7 @@ namespace ToDoList.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ActiveTasks", (string)null);
+                    b.ToTable("ActiveTasks");
                 });
 
             modelBuilder.Entity("ToDoList.Infrastructure.Data.DoneTask", b =>
@@ -281,7 +283,7 @@ namespace ToDoList.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DoneTasks", (string)null);
+                    b.ToTable("DoneTasks");
                 });
 
             modelBuilder.Entity("ToDoList.Infrastructure.Data.ExpiderTask", b =>
@@ -307,7 +309,7 @@ namespace ToDoList.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExpiderTasks", (string)null);
+                    b.ToTable("ExpiderTasks");
                 });
 
             modelBuilder.Entity("ToDoList.Infrastructure.Data.Statement", b =>
@@ -333,7 +335,7 @@ namespace ToDoList.Infrastructure.Data.Migrations
 
                     b.HasIndex("TaskFK");
 
-                    b.ToTable("Statements", (string)null);
+                    b.ToTable("Statements");
                 });
 
             modelBuilder.Entity("ToDoList.Infrastructure.Data.Step", b =>
@@ -354,7 +356,7 @@ namespace ToDoList.Infrastructure.Data.Migrations
 
                     b.HasIndex("TaskFK");
 
-                    b.ToTable("Steps", (string)null);
+                    b.ToTable("Steps");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

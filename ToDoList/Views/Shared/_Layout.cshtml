@@ -1,4 +1,7 @@
-﻿
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+
+@inject IAuthorizationService authorizationService
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -45,18 +48,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-hourglass-end"></i>
                     </a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-action="AllExpiredTasks" asp-controller="ExpiredTasks" class="nav-link">
-                        Expired Tasks
-                        <i class="fas fa-ban"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-action="AllDoneTasks" asp-controller="DoneTasks" class="nav-link">
-                        Done Tasks
-                        <i class="fas fa-check-double"></i>
-                    </a>
-                </li>
+                @if ((await authorizationService.AuthorizeAsync(User, "InactiveTaskRolePolicy")).Succeeded)
+                {
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a asp-action="AllExpiredTasks" asp-controller="ExpiredTasks" class="nav-link">
+                            Expired Tasks
+                            <i class="fas fa-ban"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a asp-action="AllDoneTasks" asp-controller="DoneTasks" class="nav-link">
+                            Done Tasks
+                            <i class="fas fa-check-double"></i>
+                        </a>
+                    </li>
+                   
+                }
                 @if (User.IsInRole("Admin"))
                 {
                     <li class="nav-item d-none d-sm-inline-block">
@@ -69,9 +76,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="dropdown-menu" role="menu" style="">
                                 <a asp-action="ListRoles" asp-controller="Administration" class="nav-link">Roles</a>
                                 <a asp-action="ListUsers" asp-controller="Administration" class="nav-link">Users</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
                             </div>
                         </div>
                     </li>                    
