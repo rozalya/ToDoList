@@ -7,5 +7,6 @@ namespace ToDoList.Core.Contracts
         TasksListViewModel GetAllDoneTasks(string userId);
         Task ReopenTask(Guid Id);
         Task<TaskViewModel> GetTask(Guid id);
+        Task AddRate(RateTaskViewModel model, Guid taskId);
     }
 }

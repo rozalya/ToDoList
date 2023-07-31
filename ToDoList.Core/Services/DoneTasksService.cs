@@ -52,13 +52,29 @@ namespace ToDoList.Core.Services
         public async Task<TaskViewModel> GetTask(Guid taskId)
         {
             var task = await repo.GetByIdAsync<DoneTask>(taskId);
+            var taskRate = repo.All<Rate>().Where(x => x.TaskFK == taskId).FirstOrDefault();
             return new TaskViewModel()
             {
                 Id = task.Id,
                 Note = task.Note,
                 DueDate = task.DueDate.Value,
-                IsImportant = task.IsImportant
+                IsImportant = task.IsImportant,
+                Rate = taskRate
             };
+        }
+
+        public async Task AddRate(RateTaskViewModel model, Guid taskId)
+        {
+            var ratedModel = new Rate
+            {
+                FirstStar = model.FirstStar,
+                SecondStar = model.SecondStar,
+                ThirdStar = model.ThirdStar,
+                TaskFK = taskId
+            };
+
+            await repo.AddAsync(ratedModel);
+            repo.SaveChanges();
         }
     }
 }

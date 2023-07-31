@@ -1,0 +1,43 @@
+﻿@model RateTaskViewModel
+
+@{
+    ViewData["Title"] = "Rate Task";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<div class="container">
+    <h2>Bootstrap star rating example by Salehin</h2>
+    <br />
+    <form method="post" asp-action="RateTask" asp-controller="DoneTasks">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <label for="input-1" class="control-label">Give a rating for Skill:</label>
+        <input id="input-1" name="FirstStar" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value=@Model.FirstStar>
+        <br />
+        <label for="input-2" class="control-label">Give a rating for Knowledge:</label>
+        <input id="input-2" name="SecondStar" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value=@Model.SecondStar>
+        <br />
+        <label for="input-3" class="control-label">Give a rating for PHP:</label>
+        <input id="input-3" name="ThirdStar" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value=@Model.ThirdStar>
+        <div class="form-group">
+            @if(Model.FirstStar > 0 || Model.SecondStar > 0 || Model.ThirdStar > 0)
+            {
+                <button title="Rate the task" type="submit" disabled class="btn btn-primary float-right">Rate</button>
+            }
+            else
+            {
+                  <button title="Rate the task" type="submit" class="btn btn-primary float-right">Rate</button>
+            }
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+<script src="~/js/CustomScript.js"></script>
+}

@@ -38,6 +38,7 @@ namespace ToDoList.Infrastructure.Data
         public DbSet<ExpiderTask> ExpiderTasks { get; set; }
         public DbSet<Step> Steps { get; set; }
         public DbSet<Statement> Statements { get; set; }
+        public DbSet<Rate> Rates { get; set; }
     }
 }
 

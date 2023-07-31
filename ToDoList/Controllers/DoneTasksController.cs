@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
+using ToDoList.Core.Models;
 
 namespace ToDoList.Controllers
 {
@@ -44,5 +45,39 @@ namespace ToDoList.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RateTask(Guid id)
+        {
+            _id = id;
+            var task = await doneTasksService.GetTask(id);
+
+                var model = new RateTaskViewModel
+                {
+                    FirstStar = task.Rate == null? 0: task.Rate.FirstStar,
+                    SecondStar = task.Rate == null ? 0 : task.Rate.SecondStar,
+                    ThirdStar = task.Rate == null ? 0 : task.Rate.ThirdStar,
+                };
+                return View(model);        
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RateTask(RateTaskViewModel model)
+        {
+            var task = await doneTasksService.GetTask(_id);
+
+            if (task == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {task.Id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                await doneTasksService.AddRate(model, _id);
+                return RedirectToAction("Details", new { Id = task.Id });
+            }
+        }
+
+        public static Guid _id { get; set; }
     }
 }

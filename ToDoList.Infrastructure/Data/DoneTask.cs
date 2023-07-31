@@ -23,5 +23,7 @@ namespace ToDoList.Infrastructure.Data
         [Required]
         [StringLength(500)]
         public string? ClosingStatus { get; set; }
+
+        public Rate Rate { get; set; }
     }
 }
