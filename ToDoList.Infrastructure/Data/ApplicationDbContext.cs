@@ -30,6 +30,11 @@ namespace ToDoList.Infrastructure.Data
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<DoneTask>()
+                .HasOne(d => d.Rate)
+                .WithOne(d => d.DoneTask)
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(modelBuilder);
         }
 
