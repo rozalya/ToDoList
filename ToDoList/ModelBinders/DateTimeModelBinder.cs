@@ -25,14 +25,14 @@ namespace ToDoList.ModelBinders
 
                 try
                 {
-                    actualValue = DateTime.ParseExact(dateValue, customDateFormat, CultureInfo.InvariantCulture);
+                    actualValue = DateTime.Parse(dateValue, new CultureInfo("bg-bg"));                 
                     success = true;
                 }
                 catch (FormatException)
                 {
                     try
                     {
-                        actualValue = DateTime.Parse(dateValue, new CultureInfo("bg-bg"));
+                        actualValue = DateTime.ParseExact(dateValue, customDateFormat, CultureInfo.InvariantCulture);
                         success = true;
                     }
                     catch (Exception e)

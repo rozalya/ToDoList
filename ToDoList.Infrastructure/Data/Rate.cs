@@ -8,15 +8,12 @@ namespace ToDoList.Infrastructure.Data
         [Key]
         public Guid RateId { get; set; }
 
-        [Required]
         [Range(0, 5)]
         public int FirstStar { get; set; }
 
-        [Required]
         [Range(0, 5)]
         public int SecondStar { get; set; }
 
-        [Required]
         [Range(0, 5)]
         public int ThirdStar { get; set; }
 

@@ -18,8 +18,5 @@ namespace ToDoList.Core.Models
 
         public ICollection<Step> Steps { get; set; } = new List<Step>();
         public ICollection<Statement> Statements { get; set; } = new List<Statement>();
-
-        public Rate Rate { get; set; }  
-
     }
 }

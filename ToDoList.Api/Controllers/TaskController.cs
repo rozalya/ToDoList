@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
+using ToDoList.Controllers;
 
-namespace ToDoList.Controllers
+namespace ToDoList.Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class TaskController : BaseController
     {
         private readonly ITaskService taskService;
@@ -21,6 +24,7 @@ namespace ToDoList.Controllers
 
         // GET: AddNewTaskController
         [HttpGet]
+        [Route("AddNew")]
         public IActionResult AddNewTask()
         {
             return View();
@@ -38,7 +42,6 @@ namespace ToDoList.Controllers
         [ProducesResponseType(400)]
         public IActionResult AddNewTask(TaskViewModel model)
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 try
@@ -131,4 +134,6 @@ namespace ToDoList.Controllers
             return RedirectToAction("Details", new { Id });
         }
     }
+
+
 }

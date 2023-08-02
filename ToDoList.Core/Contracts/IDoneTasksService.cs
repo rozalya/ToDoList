@@ -4,9 +4,9 @@ namespace ToDoList.Core.Contracts
 {
     public interface IDoneTasksService
     {
-        TasksListViewModel GetAllDoneTasks(string userId);
+        DoneTaskListViewModel GetAllDoneTasks(string userId);
         Task ReopenTask(Guid Id);
-        Task<TaskViewModel> GetTask(Guid id);
+        Task<DoneTaskViewModel> GetTask(Guid id);
         Task AddRate(RateTaskViewModel model, Guid taskId);
     }
 }

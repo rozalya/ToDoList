@@ -12,11 +12,11 @@ namespace ToDoList.Core.Services
         {
             repo = _repo;
         }
-        public TasksListViewModel GetAllDoneTasks(string userId)
+        public DoneTaskListViewModel GetAllDoneTasks(string userId)
         {
             var userTasks = repo.All<DoneTask>()
             .Where(task => task.UserId == userId)
-            .Select(t => new TaskViewModel()
+            .Select(t => new DoneTaskViewModel()
             {
                 Id = t.Id,
                 Note = t.Note,
@@ -24,9 +24,9 @@ namespace ToDoList.Core.Services
                 IsImportant = t.IsImportant,
             }).ToList();
 
-            return new TasksListViewModel()
+            return new DoneTaskListViewModel()
             {
-                TaskViewModel = userTasks.OrderBy(x => x.DueDate).ToList()
+                DoneTaskListViewModels = userTasks.OrderBy(x => x.DueDate).ToList()
             };
         }
 
@@ -49,11 +49,11 @@ namespace ToDoList.Core.Services
             repo.SaveChanges();
         }
 
-        public async Task<TaskViewModel> GetTask(Guid taskId)
+        public async Task<DoneTaskViewModel> GetTask(Guid taskId)
         {
             var task = await repo.GetByIdAsync<DoneTask>(taskId);
             var taskRate = repo.All<Rate>().Where(x => x.TaskFK == taskId).FirstOrDefault();
-            return new TaskViewModel()
+            return new DoneTaskViewModel()
             {
                 Id = task.Id,
                 Note = task.Note,
