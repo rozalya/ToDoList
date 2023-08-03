@@ -30,6 +30,11 @@ namespace ToDoList.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var task = await taskService.GetTask(id);
+            if(task == null)
+            {
+                ViewBag.ErrorMessage = $"Task with Id = {id} cannot be found";
+                return View("NotFound");
+            }
             return View(task);
         }
 

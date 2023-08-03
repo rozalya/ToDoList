@@ -31,35 +31,34 @@ namespace ToDoList.Core.Services
 
         public async Task EditTask(TaskViewModel taskViewModel, string userId)
         {
-            //var taskToEdit = await repo.GetByIdAsync<ActiveTask>(taskViewModel.Id);
-            var taskToUpdate = new ActiveTask
-            {
-                Id = taskViewModel.Id,
-                Note = taskViewModel.Note,
-                DueDate = taskViewModel.DueDate,
-                IsImportant = taskViewModel.IsImportant,
-                UserId = userId
-            };
+            var taskToEdit = await repo.GetByIdAsync<ActiveTask>(taskViewModel.Id);
+            taskToEdit.Note = taskViewModel.Note;
+            taskToEdit.DueDate = taskViewModel.DueDate;
+            taskToEdit.IsImportant = taskViewModel.IsImportant;
 
-            repo.Update(taskToUpdate);
+            repo.Update(taskToEdit);
             repo.SaveChanges();
         }
 
         public async Task<TaskViewModel> GetTask(Guid taskId)
         {
             var activeTask = await repo.GetByIdAsync<ActiveTask>(taskId);
-            var TaskSteps = repo.All<Step>().Where(x => x.TaskFK == taskId).ToList();
-            var TaskStatenets = repo.All<Statement>().Where(x => x.TaskFK == taskId).ToList();
-
-            return  new TaskViewModel()
+            if(activeTask != null) 
             {
-                Id = activeTask.Id,
-                Note = activeTask.Note,
-                DueDate = activeTask.DueDate,
-                IsImportant = activeTask.IsImportant,
-                Steps = TaskSteps,
-                Statements = TaskStatenets
-            };
+                var TaskSteps = repo.All<Step>().Where(x => x.TaskFK == taskId).ToList();
+                var TaskStatenets = repo.All<Statement>().Where(x => x.TaskFK == taskId).ToList();
+
+                return new TaskViewModel()
+                {
+                    Id = activeTask.Id,
+                    Note = activeTask.Note,
+                    DueDate = activeTask.DueDate,
+                    IsImportant = activeTask.IsImportant,
+                    Steps = TaskSteps,
+                    Statements = TaskStatenets
+                };
+            }
+          return null;
         }
 
         public async Task DeleteTask(Guid Id)
@@ -79,7 +78,6 @@ namespace ToDoList.Core.Services
                 DueDate = taskToClose.DueDate,
                 CompletedDate = DateTime.Today,
                 IsImportant = taskToClose.IsImportant,
-                ClosingStatus = "Task is Done"
             };
 
             await repo.AddAsync(doneTask);

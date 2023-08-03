@@ -20,10 +20,6 @@ namespace ToDoList.Infrastructure.Data
         [Range(typeof(bool), "true", "true")]
         public bool IsImportant { get; set; }
 
-        [Required]
-        [StringLength(500)]
-        public string? ClosingStatus { get; set; }
-
         public Rate Rate { get; set; }
     }
 }

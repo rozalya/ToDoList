@@ -74,8 +74,8 @@ namespace ToDoList.Core.Services
         internal List<TaskViewModel> GetAllOpenTasks(string userId)
         {
             var openTasks = repo.All<ActiveTask>()
-              .Where(task => task.UserId == userId &&
-              task.DueDate >= DateTime.Today)
+              .Where(task => task.UserId == userId /*&&
+              task.DueDate >= DateTime.Today*/)
               .ToList();
 
             openTasks.ForEach(task =>
