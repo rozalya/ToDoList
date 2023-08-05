@@ -41,6 +41,14 @@ namespace ToDoList.Test
         }
 
         [Test]
+        public void GetTodayTaskEmpty()
+        {
+            var service = serviceProvider.GetService<ITasksService>();
+            var searchedTasks = service.GetTodayTasks("12367");
+            Assert.That(searchedTasks.TaskViewModel.Count == 0);
+        }
+
+        [Test]
         public void GetPlannedTask()
         {
             var service = serviceProvider.GetService<ITasksService>();

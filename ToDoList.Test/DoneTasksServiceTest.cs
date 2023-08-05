@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
@@ -14,6 +15,7 @@ namespace ToDoList.Test
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
+        private IApplicatioDbRepository repo;
 
         [SetUp]
         public async Task Setup()
@@ -28,7 +30,7 @@ namespace ToDoList.Test
                  .AddSingleton<ITaskService, TaskService>()
                 .BuildServiceProvider();
 
-            var repo = serviceProvider.GetService<IApplicatioDbRepository>();
+            repo = serviceProvider.GetService<IApplicatioDbRepository>();
             await SeedDbAsync(repo);
         }
 
@@ -74,13 +76,46 @@ namespace ToDoList.Test
             };
 
             var result = service.AddRate(rate, Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465393"));
-            var ratedTask = service.GetTask(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465393"));
+            var ratedTask = service.GetTask(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465393")).Result;
+            var rates = repo.All<Rate>().ToList();
+            var rateTasks = repo.All<DoneTask>().Where(x => x.Id == Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465393"));
+            var rateTask = rates.First().DoneTask;
+            var rateId = rates.First().RateId;
+            var rateTaskFk = rates.First().TaskFK;
+
 
             Assert.That(result.IsCompletedSuccessfully, Is.True);
-            Assert.That(ratedTask.Result.Rate.FirstStar, Is.EqualTo(3));
-            Assert.That(ratedTask.Result.Rate.SecondStar, Is.EqualTo(4));
-            Assert.That(ratedTask.Result.Rate.ThirdStar, Is.EqualTo(5));
+            Assert.That(ratedTask.Rate.FirstStar, Is.EqualTo(3));
+            Assert.That(ratedTask.Rate.SecondStar, Is.EqualTo(4));
+            Assert.That(ratedTask.Rate.ThirdStar, Is.EqualTo(5));
+            Assert.That(rateTask.Id, Is.EqualTo(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465393")));
+            Assert.That(rateTaskFk, Is.EqualTo(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465393")));
+            Assert.That(rateId, Is.Not.Null);
+            Assert.That(rateTasks.First().Rate, Is.Not.Null);
         }
+
+        [Test]
+        public void GetAppDB()
+        {
+            var result = repo.All<ActiveTask>();
+            var result2 = repo.All<DoneTask>();
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result2, Is.Not.Null);
+        }
+
+        /*[Test]
+        public void DeleteAppDB()
+        {
+            var result = repo.All<ActiveTask>().Where(x => x.Id == Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391")).First();
+            repo.Delete(result);
+            repo.SaveChanges();
+
+            var result3 = repo.All<ActiveTask>().Where(x => x.Id == Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391")).FirstOrDefault();
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result3, Is.Null);
+        }*/
 
         [TearDown]
         public void TearDown()

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
 using ToDoList.Models;
 
@@ -13,14 +14,17 @@ namespace ToDoList.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
         private readonly ILogger<AdministrationController> logger;
+        private readonly IAdministrationService administrationService;
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
               UserManager<IdentityUser> userManager,
-                ILogger<AdministrationController> logger)
+                ILogger<AdministrationController> logger,
+                IAdministrationService administrationService)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
             this.logger = logger;
+            this.administrationService = administrationService;
         }
 
         [HttpGet]
@@ -48,8 +52,13 @@ namespace ToDoList.Controllers
                 ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
                 return View("NotFound");
             }
+            else 
+            { 
+                var model = administrationService.EditRole(id);
+                return View(model.Result);
+            }
 
-            var model = new EditRoleViewModel
+           /* var model = new EditRoleViewModel
             {
                 Id = role.Id,
                 RoleName = role.Name
@@ -61,9 +70,9 @@ namespace ToDoList.Controllers
                 {
                     model.Users.Add(user.UserName);
                 }
-            }
+            }*/
 
-            return View(model);
+            
         }
 
         [HttpGet]
@@ -78,8 +87,9 @@ namespace ToDoList.Controllers
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
                 return View("NotFound");
             }
+            var model = await administrationService.EditUsersInRole(roleId);
 
-            var model = new List<UserRoleViewModel>();
+          /*  var model = new List<UserRoleViewModel>();
 
             foreach (var user in userManager.Users.ToList())
             {
@@ -99,11 +109,10 @@ namespace ToDoList.Controllers
                 }
 
                 model.Add(userRoleViewModel);
-            }
+            }*/
 
             return View(model);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
@@ -115,8 +124,9 @@ namespace ToDoList.Controllers
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
                 return View("NotFound");//TODO
             }
-
-            for (int i = 0; i < model.Count; i++)
+           
+            await administrationService.EditUsersInRole(model, roleId);
+          /*  for (int i = 0; i < model.Count; i++)
             {
                 var user = await userManager.FindByIdAsync(model[i].UserId);
 
@@ -142,7 +152,7 @@ namespace ToDoList.Controllers
                     else
                         return RedirectToAction("EditRole", new { Id = roleId });
                 }
-            }
+            }*/
 
             return RedirectToAction("EditRole", new { Id = roleId });
         }
@@ -157,8 +167,13 @@ namespace ToDoList.Controllers
                 ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
                 return View("NotFound");
             }
+            else
+            {
+                var model = administrationService.EditUser(id);
+                return View(model.Result);
+            }
 
-            var userClaims = await userManager.GetClaimsAsync(user);
+            /*var userClaims = await userManager.GetClaimsAsync(user);
             var userRoles = await userManager.GetRolesAsync(user);
 
             var model = new EditUserViewModel
@@ -168,9 +183,9 @@ namespace ToDoList.Controllers
                 UserName = user.UserName,
                 Claims = userClaims.Select(c => c.Type + " : " + c.Value).ToList(),
                 Roles = userRoles
-            };
+            };*/
 
-            return View(model);
+            //return View(model);
         }
 
         [HttpPost]
@@ -185,17 +200,18 @@ namespace ToDoList.Controllers
             }
             else
             {
-                user.Email = model.Email;
+                var result = administrationService.EditUser(model);
+                /*user.Email = model.Email;
                 user.UserName = model.UserName;
 
-                var result = await userManager.UpdateAsync(user);
+                var result = await userManager.UpdateAsync(user);*/
 
-                if (result.Succeeded)
+                if (result.Result.Succeeded)
                 {
                     return RedirectToAction("ListUsers");
                 }
 
-                foreach (var error in result.Errors)
+                foreach (var error in result.Result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
@@ -243,9 +259,9 @@ namespace ToDoList.Controllers
                 return View("NotFound");
             }
 
-            var existingUserClaims = await userManager.GetClaimsAsync(user);
+            var model = administrationService.ManageUserClaims(userId);
 
-            var model = new UserClaimsViewModel
+          /*  var model = new UserClaimsViewModel
             {
                 UserId = userId
             };
@@ -264,10 +280,10 @@ namespace ToDoList.Controllers
                     userClaim.IsSelected = true;
                 }
 
-                model.Cliams.Add(userClaim);
-            }
+                model.Result.Cliams.Add(userClaim);
+            }*/
 
-            return View(model);
+            return View(model.Result);
         }
 
         [HttpPost]
@@ -316,7 +332,9 @@ namespace ToDoList.Controllers
                 return View("NotFound");
             }
 
-            var model = new List<UserRolesViewModel>();
+            var model = administrationService.ManageUserRoles(userId);
+
+          /*  var model = new List<UserRolesViewModel>();
 
             foreach (var role in roleManager.Roles.ToList())
             {
@@ -336,9 +354,9 @@ namespace ToDoList.Controllers
                 }
 
                 model.Add(userRolesViewModel);
-            }
+            }*/
 
-            return View(model);
+            return View(model.Result);
         }
 
         [HttpPost]

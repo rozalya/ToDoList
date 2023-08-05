@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
@@ -14,6 +15,7 @@ namespace ToDoList.Test
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
+        private IApplicatioDbRepository repo;
 
         [SetUp]
         public async Task Setup()
@@ -27,7 +29,7 @@ namespace ToDoList.Test
                 .AddSingleton<ITaskService, TaskService>()
                 .BuildServiceProvider();
 
-            var repo = serviceProvider.GetService<IApplicatioDbRepository>();
+            repo = serviceProvider.GetService<IApplicatioDbRepository>();
             await SeedDbAsync(repo);
         }
 
@@ -64,6 +66,13 @@ namespace ToDoList.Test
             var searchedTask = service.GetTask(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391"));
             Assert.That(searchedTask.Result.Id, Is.EqualTo(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391")));
         }
+        [Test]
+        public void GetNullTask()
+        {
+            var service = serviceProvider.GetService<ITaskService>();
+            var result = service.GetTask(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465555"));
+            Assert.That(result.Result, Is.Null);           
+        }
 
         [Test]
         public void DeleteSomeTask()
@@ -86,7 +95,28 @@ namespace ToDoList.Test
         {
             var service = serviceProvider.GetService<ITaskService>();
             var result = service.AddStep("Test stesp here", Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391"));
+            var step = repo.All<Step>().ToList();
+            var task = step.First().ActiveTask;
+            var stepFK = step.First().TaskFK;
+            var stepID = task.Steps.First().StepId;
             Assert.That(result.IsCompletedSuccessfully, Is.True);
+            Assert.That(task.Id, Is.EqualTo(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391")));
+            Assert.That(stepFK, Is.EqualTo(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391")));
+            Assert.That(stepID, Is.Not.Null);
+        }
+
+        [Test]
+        public void StepDetails()
+        {
+            var service = serviceProvider.GetService<ITaskService>();
+            var result = service.AddStep("Test stesp here", Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391"));
+            var stepData = repo.All<Step>().Where(x => x.TaskFK == Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465391")).First();
+            var step = new StepsViewModel
+            {
+                Step = stepData.Title
+            };
+ 
+            Assert.That(step.Step, Is.EqualTo("Test stesp here"));
         }
 
         [TearDown]

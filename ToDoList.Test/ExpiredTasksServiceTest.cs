@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
@@ -14,6 +15,7 @@ namespace ToDoList.Test
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
+        private IApplicatioDbRepository repo;
 
         [SetUp]
         public async Task Setup()
@@ -27,7 +29,7 @@ namespace ToDoList.Test
                 .AddSingleton<IExpiredTasksService, ExpiredTasksService>()
                 .BuildServiceProvider();
 
-            var repo = serviceProvider.GetService<IApplicatioDbRepository>();
+            repo = serviceProvider.GetService<IApplicatioDbRepository>();
             await SeedDbAsync(repo);
         }
 
@@ -37,6 +39,23 @@ namespace ToDoList.Test
             var service = serviceProvider.GetService<IExpiredTasksService>();
             var result = service.GetAllExpiredTasks("12345").TaskViewModel;
             Assert.That(result.Count == 3);
+        }
+
+        [Test]
+        public void GetExpiredTaskDetails()
+        {
+            var service = serviceProvider.GetService<IExpiredTasksService>();
+            var result = repo.All<ExpiderTask>().Where(x => x.Id == Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465392")).First();
+            var expTaskDueDate = result.DueDate;
+            var expTaskId = result.Id;
+            var expTaskIsIprt = result.IsImportant;
+            var expTaskNote = result.Note;
+            var expTaskUserId = result.UserId;
+            Assert.That(expTaskDueDate, Is.EqualTo(DateTime.Today.AddDays(-2)));
+            Assert.That(expTaskId, Is.EqualTo(Guid.Parse("fca6a9ac-2611-48df-b7d1-485fe4465392")));
+            Assert.That(expTaskIsIprt, Is.True);
+            Assert.That(expTaskNote, Is.EqualTo("Some text to test here"));
+            Assert.That(expTaskUserId, Is.EqualTo("12345"));
         }
 
         [Test]

@@ -1,6 +1,7 @@
-﻿using System.Security.Claims;
+﻿
+using System.Security.Claims;
 
-namespace ToDoList.Models
+namespace ToDoList.Core.Models
 {
     public static class ClaimsStore
     {
