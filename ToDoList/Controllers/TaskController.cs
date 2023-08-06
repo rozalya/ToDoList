@@ -66,14 +66,30 @@ namespace ToDoList.Controllers
         public async Task<IActionResult> EditTask(Guid Id)
         {
             var task = await taskService.GetTask(Id);
-            return View(task);
+            if (task == null)
+            {
+                ViewBag.ErrorMessage = $"Task with Id = {Id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                return View(task);
+            }
         }
 
         public async Task<IActionResult> GetSteps(Guid Id)
         {
             var task = await taskService.GetTask(Id);
 
-            return View(task);
+            if (task == null)
+            {
+                ViewBag.ErrorMessage = $"Task with Id = {Id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                return View(task);
+            }
         }
 
         // POST: AddNewTaskController/Edit/5
@@ -86,6 +102,12 @@ namespace ToDoList.Controllers
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                    if (userId == null)
+                    {
+                        ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
+                        return View("NotFound");
+                    }
                     await taskService.EditTask(model, userId);
                     return RedirectToAction("Details", new { Id = model.Id });
                 }

@@ -17,9 +17,9 @@ namespace ToDoList.Core.Services
         public TasksListViewModel GetTodayTasks(string userId)
         {
             var userTasks = GetPlannedTasks(userId);
-            var test1 = userTasks.TaskViewModel.Where(x => x.DueDate == DateTime.Today).ToList();
+            var todayTasks = userTasks.TaskViewModel.Where(x => x.DueDate == DateTime.Today).ToList();
 
-            return new TasksListViewModel() { TaskViewModel = test1 };
+            return new TasksListViewModel() { TaskViewModel = todayTasks };
         }
 
         public TasksListViewModel GetPlannedTasks(string userId)

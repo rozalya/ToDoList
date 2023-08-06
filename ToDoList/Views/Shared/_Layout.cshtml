@@ -39,13 +39,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item d-none d-sm-inline-block">
                     <a asp-action="AddNewTask" asp-controller="Task" class="nav-link">
                         New Task
-                        <i class="fas fa-hourglass-start"></i>
                     </a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a asp-action="AllTasks" asp-controller="OverdueTasks" class="nav-link">
                         Overdue Tasks
-                        <i class="fas fa-hourglass-end"></i>
                     </a>
                 </li>
                 @if ((await authorizationService.AuthorizeAsync(User, "InactiveTaskRolePolicy")).Succeeded)
@@ -53,13 +51,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="nav-item d-none d-sm-inline-block">
                         <a asp-action="AllExpiredTasks" asp-controller="ExpiredTasks" class="nav-link">
                             Expired Tasks
-                            <i class="fas fa-ban"></i>
                         </a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
                         <a asp-action="AllDoneTasks" asp-controller="DoneTasks" class="nav-link">
                             Done Tasks
-                            <i class="fas fa-check-double"></i>
                         </a>
                     </li>
                    
@@ -84,38 +80,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- Navbar Search -->
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                        <i class="fas fa-search"></i>
-                    </a>
-                    <div class="navbar-search-block">
-                        <form class="form-inline">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-navbar" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </li>
-
-                <!-- Messages Dropdown Menu -->
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -130,10 +98,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                @*<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">*@
-                <i class="fas fa-check"></i>
-                <span class="brand-text font-weight-light">To Do</span>
+            <a asp-action="index" asp-controller="Home" class="brand-link">                
+                <p class="h3 text-center font-weight-light">
+                    <i class="fas fa-check"></i>
+                    To Do
+                    </p>
             </a>
 
             <!-- Sidebar -->
@@ -194,11 +163,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->
-            <div class="float-right d-none d-sm-inline">
-                Anything you want
-            </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2014-2021</strong> All rights reserved.
         </footer>
     </div>
     <!-- ./wrapper -->

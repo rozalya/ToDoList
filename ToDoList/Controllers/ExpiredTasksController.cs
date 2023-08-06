@@ -21,6 +21,11 @@ namespace ToDoList.Controllers
         public IActionResult AllExpiredTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
+                return View("NotFound");
+            }
             var model = expiredTasksService.GetAllExpiredTasks(userId);
             return View(model);
         }

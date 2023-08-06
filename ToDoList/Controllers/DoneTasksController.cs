@@ -10,7 +10,7 @@ namespace ToDoList.Controllers
     [Authorize(Policy = "InactiveTaskRolePolicy")]
     public class DoneTasksController : BaseController
     {
-        private readonly IDoneTasksService  doneTasksService;
+        private readonly IDoneTasksService doneTasksService;
         private readonly UserManager<IdentityUser> userManager;
 
         public DoneTasksController(IDoneTasksService _doneTasksService,
@@ -22,6 +22,12 @@ namespace ToDoList.Controllers
         public IActionResult AllDoneTasks()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
+                return View("NotFound");
+            }
+
             var model = doneTasksService.GetAllDoneTasks(userId);
             return View(model);
         }
@@ -51,14 +57,19 @@ namespace ToDoList.Controllers
         {
             _id = id;
             var task = await doneTasksService.GetTask(id);
+            if (task == null)
+            {
+                ViewBag.ErrorMessage = $"Task with Id = {task} cannot be found";
+                return View("NotFound");
+            }
 
-                var model = new RateTaskViewModel
-                {
-                    FirstStar = task.Rate == null? 0: task.Rate.FirstStar,
-                    SecondStar = task.Rate == null ? 0 : task.Rate.SecondStar,
-                    ThirdStar = task.Rate == null ? 0 : task.Rate.ThirdStar,
-                };
-                return View(model);        
+            var model = new RateTaskViewModel
+            {
+                FirstStar = task.Rate == null ? 0 : task.Rate.FirstStar,
+                SecondStar = task.Rate == null ? 0 : task.Rate.SecondStar,
+                ThirdStar = task.Rate == null ? 0 : task.Rate.ThirdStar,
+            };
+            return View(model);
         }
 
         [HttpPost]

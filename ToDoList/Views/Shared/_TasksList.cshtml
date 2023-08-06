@@ -4,15 +4,21 @@
 @inject IAuthorizationService authorizationService
 
 <div class="row">
-    <div class="col-sm-12">
-        <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
+    <div class="col-sm-12">     
+           @if(Model.TaskViewModel.Count == 0)
+                {
+                <p class="h4 text-center">No results found</p>
+            }
+            else
+            {
+        <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">                                  
             <thead>
                 <tr>
-                    <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Note</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Due Date</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Is Important</th>
+                    <th class="col">Note</th>
+                    <th class="col">Due Date</th>
+                    <th class="col">Is Important</th>
             </thead>
-            <tbody>
+            <tbody>                  
                 @foreach (var task in Model.TaskViewModel)
                 {
                     <tr class="odd">
@@ -59,45 +65,12 @@
                                     <i class="fas fa-arrow-up-right-from-square"></i>
                                 </a>
                             </div>
-                            @* <div class="row">
-
-                                <form method="post" asp-action="CompleteTask" asp-route-Id="@task.Id" asp-controller="Task">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
-                                <span>
-                                <i class="fas fa-check"></i>
-                                </span>
-                                </button>
-                                </form>
-                                <form method="get" asp-action="EditTask" asp-route-Id="@task.Id" asp-controller="Task">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <button type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
-                                <span>
-                                <i class="fas fa-pen"></i>
-                                </span>
-                                </button>
-                                </form>
-                                <form method="post" asp-action="DeleteTask" asp-route-Id="@task.Id" asp-controller="Task">
-                                <span id="confirmDeleteSpan_@task.Id" style="display:none">
-                                <span>Are you sure you want to delete?</span>
-                                <button type="submit" class="btn btn-danger">Yes</button>
-                                <a href="#" class="btn btn-primary"
-                                onclick="confirmDelete('@task.Id', false)">No</a>
-                                </span>
-
-                                <span id="deleteSpan_@task.Id">
-                                <a href="#" class="btn btn-danger"
-                                onclick="confirmDelete('@task.Id', true)">
-                                <i class="fas fa-trash"></i>
-                                </a>
-                                </span>
-                                </form>
-                                </div>*@
                         </td>
 
                     </tr>
                 }
             </tbody>
         </table>
+        }
     </div>
 </div>

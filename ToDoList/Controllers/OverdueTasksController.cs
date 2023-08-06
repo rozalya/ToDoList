@@ -46,15 +46,25 @@ namespace ToDoList.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var task = await taskService.GetTask(id);
+            if (task == null)
+            {
+                ViewBag.ErrorMessage = $"Task with Id = {task} cannot be found";
+                return View("NotFound");
+            }
             return View(task);
         }
         public async Task<IActionResult> EditDate(Guid Id)
         {
             var task = await taskService.GetTask(Id);
+            if (task == null)
+            {
+                ViewBag.ErrorMessage = $"Task with Id = {task} cannot be found";
+                return View("NotFound");
+            }
+
             return View(task);
         }
 
-        // POST: AddNewTaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditDate(TaskViewModel model)
@@ -64,6 +74,11 @@ namespace ToDoList.Controllers
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    if (userId == null)
+                    {
+                        ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
+                        return View("NotFound");
+                    }
                     await overdueTasks.EditDate(model, userId);
                     return RedirectToAction("Details", new { Id = model.Id });
                 }
