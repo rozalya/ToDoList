@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 using System.Security.Claims;
 using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
@@ -43,7 +44,6 @@ namespace ToDoList.Controllers
         [ProducesResponseType(400)]
         public IActionResult AddNewTask(TaskViewModel model)
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 try
@@ -152,9 +152,22 @@ namespace ToDoList.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "StepsUserRolePolicy")]
-        public async Task<IActionResult> AddNewStep(string Note, Guid Id)
+        public async Task<IActionResult> AddNewStep(string Step, Guid Id)
         {
-            await taskService.AddStep(Note, Id);
+            if (Step != null)
+            {
+                    try
+                    {
+                        await taskService.AddStep(Step, Id);
+                        return RedirectToAction("Details", new { Id });
+                    }
+                    catch (ArgumentException ae)
+                    {
+                        return BadRequest(ae.Message);
+                    }              
+                return RedirectToAction("Details", new { Id }); ;
+            }
+
             return RedirectToAction("Details", new { Id });
         }
     }

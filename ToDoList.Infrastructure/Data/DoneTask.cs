@@ -11,7 +11,7 @@ namespace ToDoList.Infrastructure.Data
         public string UserId { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [MaxLength(500, ErrorMessage = "Text cannot exceed 500 characters")]
         public string? Note { get; set; }
 
         public DateTime? DueDate { get; set; }

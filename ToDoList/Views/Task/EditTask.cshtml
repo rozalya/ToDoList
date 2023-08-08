@@ -7,13 +7,13 @@
 <div>
 <div class="card card-secondary">
 <div class="card-header">
-    <h3 class="card-title">Add new task</h3>
+    <h3 class="card-title">Edit task</h3>
 </div>
 <form method="post"  asp-action="EditTask" asp-controller="Task">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="card-body">
         <div class="form-group" data-select2-id="51">
-            <label>Task</label>
+           <label asp-for="Note"></label>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -28,7 +28,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="form-group">
-                    <label class="control-label">Due</label>
+                      <label asp-for="DueDate"></label>
                     <input type="date" asp-for="DueDate" value="@Model.DueDate.Value.ToString("yyyy-MM-dd")" id="date"  name="DueDate">
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input" asp-for="IsImportant" name="IsImportant" type="checkbox" value="@Model.IsImportant" onchange="this.value=this.checked">
-                        <label class="form-check-label">Important</label>
+                         <label asp-for="IsImportant">Important</label>
                     </div>
                 </div>
             </div>

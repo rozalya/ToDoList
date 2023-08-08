@@ -26,9 +26,9 @@
                                     <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
                                         <thead>
                                             <tr>
-                                                <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Note</th>
-                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Due Date</th>
-                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Is Important</th>
+                                                <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Note</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Due Date</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Is Important</th>
                                         </thead>
                                         <tbody>
                                             <tr class="odd">
@@ -38,7 +38,7 @@
                                                     <div class="row">
                                                         <i class= ="@(@Model.IsImportant ? "fas fa-exclamation" : "col-2")" style="padding: 1rem"></i>
                                                         <form method="post" asp-action="CompleteTask" asp-route-Id="@Model.Id" asp-controller="Task">
-                                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                            <div asp-validation-summary="All" class="text-danger"></div>
                                                             <button title="Complete task" type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
                                                                 <span>
                                                                     <i class="fas fa-check"></i>
@@ -46,14 +46,14 @@
                                                             </button>
                                                         </form>
                                                         <form method="get" asp-action="EditTask" asp-route-Id="@Model.Id" asp-controller="Task">
-                                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                            <div asp-validation-summary="All" class="text-danger"></div>
                                                             <button title="Edit task" type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
                                                                 <span>
                                                                     <i class="fas fa-pen"></i>
                                                                 </span>
                                                             </button>
                                                         </form>
-                                                        <form title="Delete task" method="post" asp-action="DeleteTask" asp-route-Id="@Model.Id" asp-controller="Task">
+                                                        <form title="Delete task" method="post" asp-action="DeleteTask" asp-route-Id="@Model.Id" asp-controller="Task"  style="margin-top: 1rem">
                                                             <span id="confirmDeleteSpan_@Model.Id" style="display:none">
                                                                 <span>Are you sure you want to delete?</span>
                                                                 <button type="submit" class="btn btn-danger">Yes</button>
@@ -71,13 +71,13 @@
                                                         @if ((await authorizationService.AuthorizeAsync(User, "StatementsUserRolePolicy")).Succeeded)
                                                         {
                                                             <form method="get" asp-action="Index" asp-route-Id="@Model.Id" asp-controller="Statements">
-                                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                                <div asp-validation-summary="All" class="text-danger"></div>
                                                                 <button title="What if" type="submit" class="btn btn-primary" style="margin-inline: 0.3rem">
                                                                     <span>
                                                                         <i class="fas fa-question"></i>
                                                                     </span>
                                                                 </button>
-                                                            </form>                                                            
+                                                            </form>
                                                         }
                                                     </div>
                                                 </td>
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                         @if ((await authorizationService.AuthorizeAsync(User, "StepsUserRolePolicy")).Succeeded)
+                        @if ((await authorizationService.AuthorizeAsync(User, "StepsUserRolePolicy")).Succeeded)
                         {
                             <div class="card">
                                 <div class="card-header border-0">
@@ -102,10 +102,11 @@
                                                 }
                                             </ul>
                                             <form method="post" asp-action="AddNewStep" asp-route-Id="@Model.Id" asp-controller="Task">
-                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                <label class="control-label">Add new step</label>
+                                                <div asp-validation-summary="All" class="text-danger"></div>
+                                                @*<label class="control-label">Add new step</label>*@
+                                                <label asp-for="Step">Add new step</label>
                                                 <div style="display: inline-flex">
-                                                    <input type="text" class="form-control" name="Note" placeholder="Task" style="margin-right: 0.5rem">
+                                                    <input asp-for="Step" type="text" class="form-control" name="Step" placeholder="Step text" style="margin-right: 0.5rem">
                                                     <button title="Add new step" type="submit" class="btn btn-primary float-right">Add</button>
                                                 </div>
                                             </form>
@@ -130,7 +131,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                         
+                            </div>
                         }
                     </div>
                 </div>

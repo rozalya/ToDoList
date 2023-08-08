@@ -9,11 +9,11 @@ namespace ToDoList.Infrastructure.Data
         public Guid StatementId { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [MaxLength(500, ErrorMessage = "Text cannot exceed 500 characters")]
         public string If { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [MaxLength(500, ErrorMessage = "Text cannot exceed 500 characters")]
         public string Then { get; set; }
 
         [ForeignKey(nameof(ActiveTask))]

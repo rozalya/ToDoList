@@ -20,6 +20,12 @@ namespace ToDoList.Controllers
 
         public IActionResult Index(string Id)
         {
+            if (Id == null)
+            {
+                ViewBag.ErrorMessage = $"Task with Id = {Id} cannot be found";
+                return View("NotFound");
+            }
+
             _id = Id;
             return View();
         }
@@ -28,9 +34,12 @@ namespace ToDoList.Controllers
         public async Task<IActionResult> AddStatement(string IfText, string ThenText)
         {
             var taskId = Guid.Parse(_id);
-            await statementService.AddStatement(IfText, ThenText, taskId);
-            return RedirectToAction("Details","Task", new { Id = taskId });
-
+            if(IfText != null && ThenText != null)
+            {
+                await statementService.AddStatement(IfText, ThenText, taskId);
+                return RedirectToAction("Details","Task", new { Id = taskId });
+            }
+            return RedirectToAction("Index", "Statements", new { Id = taskId });
         }
 
         public static string _id { get; set; }

@@ -9,7 +9,7 @@ namespace ToDoList.Infrastructure.Data
         public Guid StepId { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [MaxLength(500, ErrorMessage = "Text cannot exceed 500 characters")]
         public string Title { get; set; }
 
         [ForeignKey(nameof(ActiveTask))]

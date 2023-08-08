@@ -13,7 +13,7 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 <div class="container">
-    <h2>Bootstrap star rating example by Salehin</h2>
+    <h2>Star rate task</h2>
     <br />
     <form method="post" asp-action="RateTask" asp-controller="DoneTasks">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -23,16 +23,16 @@
         <label for="input-2" class="control-label">Give a rating for Knowledge:</label>
         <input id="input-2" name="SecondStar" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value=@Model.SecondStar>
         <br />
-        <label for="input-3" class="control-label">Give a rating for PHP:</label>
+        <label for="input-3" class="control-label">Give a rating for Time:</label>
         <input id="input-3" name="ThirdStar" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value=@Model.ThirdStar>
         <div class="form-group">
             @if(Model.FirstStar > 0 || Model.SecondStar > 0 || Model.ThirdStar > 0)
             {
-                <button title="Rate the task" type="submit" disabled class="btn btn-primary float-right">Rate</button>
+                <button title="Rate the task" type="submit" disabled class="btn btn-primary float-left">Rate</button>
             }
             else
             {
-                  <button title="Rate the task" type="submit" class="btn btn-primary float-right">Rate</button>
+                  <button title="Rate the task" type="submit" class="btn btn-primary float-left">Rate</button>
             }
         </div>
     </form>

@@ -13,12 +13,13 @@
             <div class="col-sm-12">
                 <div class="form-group col-4">
                     <form method="post" asp-action="AddStatement"  asp-controller="Statements" asp-route-ID=@Model.>
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div style="display: inline-flex">
-                        <label class="control-label">If...</label>
-                        <input type="text" class="form-control" name="IfText" placeholder="If text" style="margin-right: 0.5rem">
-                         <label class="control-label">Then...</label>
-                        <input type="text" class="form-control" name="ThenText" placeholder="Then text" style="margin-right: 0.5rem">
+                       @* <label class="control-label">If...</label>*@
+                         <label asp-for="If">If...</label>
+                        <input asp-for="If" type="text" class="form-control" name="IfText" placeholder="If text" style="margin-right: 0.5rem">
+                           <label asp-for="Then">Then...</label>
+                        <input asp-for="Then" type="text" class="form-control" name="ThenText" placeholder="Then text" style="margin-right: 0.5rem">
                         </div>
                         <button title="Add new step" type="submit" class="btn btn-primary float-right">Add</button>
                     </form>
