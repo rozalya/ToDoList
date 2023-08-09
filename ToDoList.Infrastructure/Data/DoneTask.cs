@@ -17,6 +17,9 @@ namespace ToDoList.Infrastructure.Data
         public DateTime? DueDate { get; set; }
         public DateTime? CompletedDate { get; set; }
 
+        [Required]
+        [MaxLength(500, ErrorMessage = "Text cannot exceed 500 characters")]
+
         [Range(typeof(bool), "true", "true")]
         public bool IsImportant { get; set; }
 

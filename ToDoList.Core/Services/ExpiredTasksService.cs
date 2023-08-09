@@ -1,4 +1,5 @@
-﻿using ToDoList.Core.Contracts;
+﻿using System.Web;
+using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Data.Repositories;
@@ -19,7 +20,7 @@ namespace ToDoList.Core.Services
             .Select(t => new TaskViewModel()
             {
                 Id = t.Id,
-                Note = t.Note,
+                Note = HttpUtility.HtmlDecode(t.Note),
                 DueDate = t.DueDate,
                 IsImportant = t.IsImportant,
             }).ToList();

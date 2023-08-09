@@ -1,4 +1,5 @@
-﻿using ToDoList.Core.Contracts;
+﻿using System.Web;
+using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Data.Repositories;
@@ -19,7 +20,7 @@ namespace ToDoList.Core.Services
             .Select(t => new DoneTaskViewModel()
             {
                 Id = t.Id,
-                Note = t.Note,
+                Note = HttpUtility.HtmlDecode(t.Note),
                 DueDate = t.DueDate,
                 IsImportant = t.IsImportant,
             }).ToList();
@@ -37,13 +38,12 @@ namespace ToDoList.Core.Services
             {
                 Id = taskToReopen.Id,
                 UserId = taskToReopen.UserId,
-                Note = taskToReopen.Note,
+                Note = HttpUtility.HtmlDecode(taskToReopen.Note),
                 DueDate = taskToReopen.DueDate,
                 IsImportant = taskToReopen.IsImportant,
             };
 
-            await repo.AddAsync(
-                activeTask);
+            await repo.AddAsync(activeTask);
             repo.SaveChanges();
             await repo.DeleteAsync<DoneTask>(Id);
             repo.SaveChanges();
@@ -56,7 +56,7 @@ namespace ToDoList.Core.Services
             return new DoneTaskViewModel()
             {
                 Id = task.Id,
-                Note = task.Note,
+                Note = HttpUtility.HtmlDecode(task.Note),
                 DueDate = task.DueDate.Value,
                 IsImportant = task.IsImportant,
                 Rate = taskRate

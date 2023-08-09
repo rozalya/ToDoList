@@ -1,5 +1,7 @@
-﻿using ToDoList.Core.Contracts;
+﻿using System.Web;
+using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
+using ToDoList.Core.Services.CommonUtils;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Data.Repositories;
 
@@ -18,7 +20,7 @@ namespace ToDoList.Core.Services
             ActiveTask newtask = new ActiveTask
             {
                 UserId = Id,
-                Note = taskViewModel.Note,
+                Note = HttpUtility.HtmlEncode(taskViewModel.Note),
                 DueDate = taskViewModel.DueDate,
                 IsImportant = taskViewModel.IsImportant,
             };
@@ -32,7 +34,7 @@ namespace ToDoList.Core.Services
         public async Task EditTask(TaskViewModel taskViewModel, string userId)
         {
             var taskToEdit = await repo.GetByIdAsync<ActiveTask>(taskViewModel.Id);
-            taskToEdit.Note = taskViewModel.Note;
+            taskToEdit.Note = HttpUtility.HtmlEncode(taskViewModel.Note);
             taskToEdit.DueDate = taskViewModel.DueDate;
             taskToEdit.IsImportant = taskViewModel.IsImportant;
 
@@ -51,11 +53,11 @@ namespace ToDoList.Core.Services
                 return new TaskViewModel()
                 {
                     Id = activeTask.Id,
-                    Note = activeTask.Note,
+                    Note = HttpUtility.HtmlDecode(activeTask.Note),
                     DueDate = activeTask.DueDate,
                     IsImportant = activeTask.IsImportant,
-                    Steps = TaskSteps,
-                    Statements = TaskStatenets
+                    Steps = Common.DecodeSteps(TaskSteps),
+                    Statements = Common.DecodeStatements(TaskStatenets),
                 };
             }
           return null;
@@ -92,7 +94,7 @@ namespace ToDoList.Core.Services
 
             var stepToAdd = new Step()
             {
-                Title = stepText,
+                Title = HttpUtility.HtmlEncode(stepText),
             };
 
             task.Steps.Add(stepToAdd);

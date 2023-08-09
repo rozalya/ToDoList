@@ -60,8 +60,7 @@ namespace ToDoList.Controllers
             {
                 ViewBag.ErrorMessage = $"Task with Id = {task} cannot be found";
                 return View("NotFound");
-            }
-
+            }        
             return View(task);
         }
 
@@ -80,7 +79,8 @@ namespace ToDoList.Controllers
                         return View("NotFound");
                     }
                     await overdueTasks.EditDate(model, userId);
-                    return RedirectToAction("Details", new { Id = model.Id });
+                    //return RedirectToAction("Details", new { Id = model.Id });
+                    return RedirectToAction("AllTasks");
                 }
                 catch
                 {

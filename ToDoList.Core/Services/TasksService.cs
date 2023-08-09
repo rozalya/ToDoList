@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDoList.Core.Contracts;
 using ToDoList.Core.Models;
+using ToDoList.Core.Services.CommonUtils;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Data.Repositories;
 
@@ -74,11 +75,16 @@ namespace ToDoList.Core.Services
         internal List<TaskViewModel> GetAllOpenTasks(string userId)
         {
             var openTasks = repo.All<ActiveTask>()
-              .Where(task => task.UserId == userId /*&&
-              task.DueDate >= DateTime.Today*/)
+              .Where(task => task.UserId == userId)
               .ToList();
+            var decodedTasks = new List<ActiveTask>();
 
             openTasks.ForEach(task =>
+            {
+                decodedTasks.Add(Common.DecodeTask(task));
+            });
+
+            decodedTasks.ForEach(task =>
             {
                 var currentSteps = repo.All<Step>().Where(x => x.TaskFK == task.Id).ToList();
                 task.Steps = currentSteps;
@@ -86,7 +92,7 @@ namespace ToDoList.Core.Services
                 task.Statements = currentStatemets;
             });
 
-           var result =  openTasks.Select(task => new TaskViewModel()
+           var result = decodedTasks.Select(task => new TaskViewModel()
             {
                 Id = task.Id,
                 Note = task.Note,

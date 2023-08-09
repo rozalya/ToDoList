@@ -1,4 +1,5 @@
-﻿using ToDoList.Core.Contracts;
+﻿using System.Web;
+using ToDoList.Core.Contracts;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Data.Repositories;
 
@@ -18,8 +19,8 @@ namespace ToDoList.Core.Services
 
             var statemetToAdd = new Statement()
             {
-               If = IfText,
-               Then = ThenText
+               If = HttpUtility.HtmlEncode(IfText),
+               Then = HttpUtility.HtmlEncode(ThenText)
             };
 
             task.Statements.Add(statemetToAdd);

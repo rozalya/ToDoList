@@ -17,9 +17,7 @@ namespace ToDoList.Core.Models
         public bool IsImportant { get; set; }
         public bool IsColsed{ get; set; }
 
-        [MaxLength(500, ErrorMessage = "Step cannot exceed 500 characters")]
-        [MinLength(1, ErrorMessage = "Step cannot less then 1 characters")]
-        public string Step { get; set; }
+        public string? Step { get; set; }
 
         public ICollection<Step> Steps { get; set; } = new List<Step>();
         public ICollection<Statement> Statements { get; set; } = new List<Statement>();

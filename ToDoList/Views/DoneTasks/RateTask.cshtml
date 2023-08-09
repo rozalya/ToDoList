@@ -16,7 +16,7 @@
     <h2>Star rate task</h2>
     <br />
     <form method="post" asp-action="RateTask" asp-controller="DoneTasks">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
         <label for="input-1" class="control-label">Give a rating for Skill:</label>
         <input id="input-1" name="FirstStar" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value=@Model.FirstStar>
         <br />

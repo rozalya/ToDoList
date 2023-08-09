@@ -1,5 +1,10 @@
 ﻿@model TaskViewModel
 
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+
+@inject IAuthorizationService authorizationService
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -14,9 +19,9 @@
                 <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
                     <thead>
                         <tr>
-                            <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Note</th>
-                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Due Date</th>
-                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Is Important</th>
+                            <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Note</th>
+                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Due Date</th>
+                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Is Important</th>
                     </thead>
                     <tbody>
                         <tr class="odd">
@@ -63,14 +68,47 @@
 
                     </tbody>
                 </table>
-                <div class="form-group col-4">
-                    <ul style="list-style-type:circle">
-                        @foreach (var step in @Model.Steps)
-                        {
-                            <li>@step.Title</li>
-                        }
-                    </ul>
-                </div>
+                @if ((await authorizationService.AuthorizeAsync(User, "StepsUserRolePolicy")).Succeeded)
+                {
+                    @if (@Model.Steps.Count > 0)
+                    {                   
+                        <div class="card">
+                            <div class="card-header border-0">
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-group col-4">
+                                        <ul style="list-style-type:circle">
+                                            @foreach (var step in @Model.Steps)
+                                            {
+                                                <li>@step.Title</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                @if ((await authorizationService.AuthorizeAsync(User, "StatementsUserRolePolicy")).Succeeded)
+                {
+                    @if (@Model.Steps.Count > 0)
+                    {
+                        <div class="card">
+                            <div class="card-header border-0">
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-group col-9">
+                                        <label class="control-label">If... Then statements</label>
+                                        <ul style="list-style-type:circle">
+                                            @foreach (var step in @Model.Statements)
+                                            {
+                                                <li><b>If: </b>@step.If -> <b>Then: </b>@step.Then</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
 
