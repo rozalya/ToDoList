@@ -15,6 +15,11 @@ namespace ToDoList.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Close the current task.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task CloseTask(Guid Id)
         {
             var stepsToRemove = repo.All<Step>()
@@ -38,6 +43,11 @@ namespace ToDoList.Core.Services
             repo.SaveChanges();
         }
 
+        /// <summary>
+        /// Get all overdue tasks.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public TasksListViewModel GetAllOverdueTasks(string userId)
         {
             var userTasks = AllOverdueTasks(userId);
@@ -47,23 +57,25 @@ namespace ToDoList.Core.Services
             };
         }
 
+        /// <summary>
+        /// Edit the current task date.
+        /// </summary>
+        /// <param name="taskViewModel"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task EditDate(TaskViewModel taskViewModel, string userId)
         {
             var taskToUpdate = await repo.GetByIdAsync<ActiveTask>(taskViewModel.Id);
             taskToUpdate.DueDate = taskViewModel.DueDate;
-           /* var taskToUpdate = new ActiveTask
-            {
-                Id = taskViewModel.Id,
-                Note = taskViewModel.Note,
-                DueDate = taskViewModel.DueDate,
-                IsImportant = taskViewModel.IsImportant,
-                UserId = userId
-            };*/
-
             repo.Update(taskToUpdate);
             repo.SaveChanges();
         }
 
+        /// <summary>
+        /// Fet all overdue tasks.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         internal List<TaskViewModel> AllOverdueTasks(string userId)
         {
             var openTasks = repo.All<ActiveTask>()

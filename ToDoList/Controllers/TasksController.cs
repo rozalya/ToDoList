@@ -9,12 +9,15 @@ namespace ToDoList.Controllers
     {
         private readonly ITasksService tasksService;
         private readonly UserManager<IdentityUser> userManager;
+        ILogger<TasksController> logger;
 
         public TasksController(ITasksService _tasksService,
-           UserManager<IdentityUser> _userManager)
+           UserManager<IdentityUser> _userManager,
+            ILogger<TasksController> _logger)
         {
             tasksService = _tasksService;
             userManager = _userManager;
+            logger = _logger;
         }    
         public ActionResult AllTasks()
         {

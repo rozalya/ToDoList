@@ -15,6 +15,12 @@ namespace ToDoList.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Add new task.
+        /// </summary>
+        /// <param name="taskViewModel"></param>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public Task NewTask(TaskViewModel taskViewModel, string Id)
         {
             ActiveTask newtask = new ActiveTask
@@ -27,10 +33,15 @@ namespace ToDoList.Core.Services
 
             var result = repo.AddAsync(newtask);
             repo.SaveChanges();
-
             return result;
         }
 
+        /// <summary>
+        /// Edit current task.
+        /// </summary>
+        /// <param name="taskViewModel"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task EditTask(TaskViewModel taskViewModel, string userId)
         {
             var taskToEdit = await repo.GetByIdAsync<ActiveTask>(taskViewModel.Id);
@@ -42,6 +53,11 @@ namespace ToDoList.Core.Services
             repo.SaveChanges();
         }
 
+        /// <summary>
+        /// Get the current task details.
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
         public async Task<TaskViewModel> GetTask(Guid taskId)
         {
             var activeTask = await repo.GetByIdAsync<ActiveTask>(taskId);
@@ -63,12 +79,22 @@ namespace ToDoList.Core.Services
           return null;
         }
 
+        /// <summary>
+        /// Delete the current task.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task DeleteTask(Guid Id)
         {
             await repo.DeleteAsync<ActiveTask>(Id);
             repo.SaveChanges();
         }
 
+        /// <summary>
+        /// Compleat the current task.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task CompleteTask(Guid Id)
         {
             var taskToClose = await repo.GetByIdAsync<ActiveTask>(Id);
@@ -88,6 +114,12 @@ namespace ToDoList.Core.Services
             repo.SaveChanges();
         }
 
+        /// <summary>
+        /// Add step to the current task.
+        /// </summary>
+        /// <param name="stepText"></param>
+        /// <param name="TaskId"></param>
+        /// <returns></returns>
         public async Task AddStep(string stepText, Guid TaskId)
         {
             var task = await repo.GetByIdAsync<ActiveTask>(TaskId);

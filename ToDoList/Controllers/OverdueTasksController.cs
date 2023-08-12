@@ -11,14 +11,17 @@ namespace ToDoList.Controllers
         private readonly IOverdueTasksService overdueTasks;
         private readonly ITaskService taskService;
         private readonly UserManager<IdentityUser> userManager;
+        ILogger<OverdueTasksController> logger;
 
         public OverdueTasksController(IOverdueTasksService _overdueTasks,
            UserManager<IdentityUser> _userManager,
-           ITaskService _taskService)
+           ITaskService _taskService,
+           ILogger<OverdueTasksController> _logger)
         {
             overdueTasks = _overdueTasks;
             userManager = _userManager;
             taskService = _taskService;
+            logger = _logger;
         }
         public IActionResult AllTasks()
         {
@@ -79,7 +82,6 @@ namespace ToDoList.Controllers
                         return View("NotFound");
                     }
                     await overdueTasks.EditDate(model, userId);
-                    //return RedirectToAction("Details", new { Id = model.Id });
                     return RedirectToAction("AllTasks");
                 }
                 catch

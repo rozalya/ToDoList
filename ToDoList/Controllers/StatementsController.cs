@@ -10,12 +10,15 @@ namespace ToDoList.Controllers
     {
         private readonly IStatementService statementService;
         private readonly UserManager<IdentityUser> userManager;
+        ILogger<StatementsController> logger;
 
         public StatementsController(IStatementService _statementService,
-           UserManager<IdentityUser> _userManager)
+           UserManager<IdentityUser> _userManager,
+            ILogger<StatementsController> _logger)
         {
             statementService = _statementService;
             userManager = _userManager;
+            logger = _logger;
         }
 
         public IActionResult Index(string Id)

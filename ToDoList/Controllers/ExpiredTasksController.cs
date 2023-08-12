@@ -11,12 +11,15 @@ namespace ToDoList.Controllers
     {
         private readonly IExpiredTasksService expiredTasksService;
         private readonly UserManager<IdentityUser> userManager;
+        ILogger<ExpiredTasksController> logger;
 
         public ExpiredTasksController(IExpiredTasksService _expiredTasksService,
-           UserManager<IdentityUser> _userManager)
+           UserManager<IdentityUser> _userManager,
+           ILogger<ExpiredTasksController> _logger)
         {
             expiredTasksService = _expiredTasksService;
             userManager = _userManager;
+            logger = _logger;
         }
         public IActionResult AllExpiredTasks()
         {

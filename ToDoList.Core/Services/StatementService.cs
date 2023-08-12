@@ -13,6 +13,13 @@ namespace ToDoList.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Add Statement for the current task.
+        /// </summary>
+        /// <param name="IfText"></param>
+        /// <param name="ThenText"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
         public async Task AddStatement(string IfText, string ThenText, Guid taskId)
         {
             var task = await repo.GetByIdAsync<ActiveTask>(taskId);

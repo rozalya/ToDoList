@@ -57,13 +57,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     Expired Tasks
                                 </a>
                             </li>
+
+                        }
                             <li class="nav-item">
                                 <a asp-action="AllDoneTasks" asp-controller="DoneTasks" class="nav-link">
                                     Done Tasks
                                 </a>
                             </li>
-
-                        }
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Web;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
 
@@ -11,6 +6,11 @@ namespace ToDoList.Core.Services.CommonUtils
 {
     public static class Common
     {
+        /// <summary>
+        /// Escapes all special symbols with encoding. 
+        /// </summary>
+        /// <param name="taskViewModel"></param>
+        /// <returns></returns>
         public static TaskViewModel EncodeTask(TaskViewModel taskViewModel)
         {
             var encodedTask = new TaskViewModel();
@@ -38,6 +38,11 @@ namespace ToDoList.Core.Services.CommonUtils
             return encodedTask;
         }
 
+        /// <summary>
+        /// Decode all special symbols that are escaped into DB.
+        /// </summary>
+        /// <param name="activeTask"></param>
+        /// <returns></returns>
         public static ActiveTask DecodeTask(ActiveTask activeTask)
         {
             var decodedTask = activeTask;
@@ -65,6 +70,11 @@ namespace ToDoList.Core.Services.CommonUtils
             return decodedTask;
         }
 
+        /// <summary>
+        /// Decode all special symbols that are escaped into DB.
+        /// </summary>
+        /// <param name="steps"></param>
+        /// <returns></returns>
         public static List<Step> DecodeSteps(List<Step> steps)
         {
             if (steps.Count != null)
@@ -80,6 +90,11 @@ namespace ToDoList.Core.Services.CommonUtils
             return steps;
         }
 
+        /// <summary>
+        /// Decode all special symbols that are escaped into DB.
+        /// </summary>
+        /// <param name="statements"></param>
+        /// <returns></returns>
         public static List<Statement> DecodeStatements(List<Statement> statements)
         {
             if (statements.Count != null)

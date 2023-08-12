@@ -13,6 +13,12 @@ namespace ToDoList.Core.Services
         {
             repo = _repo;
         }
+
+        /// <summary>
+        /// Get all expired tasks.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public TasksListViewModel GetAllExpiredTasks(string userId)
         {
             var userTasks =  repo.All<ExpiderTask>()
@@ -31,6 +37,11 @@ namespace ToDoList.Core.Services
             };
         }
 
+        /// <summary>
+        /// Delete the current task.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task DeleteTask(Guid Id)
         {
             await repo.DeleteAsync<ExpiderTask>(Id);

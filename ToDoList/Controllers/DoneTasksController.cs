@@ -7,17 +7,20 @@ using ToDoList.Core.Models;
 
 namespace ToDoList.Controllers
 {
-    [Authorize(Policy = "InactiveTaskRolePolicy")]
+    //[Authorize(Policy = "InactiveTaskRolePolicy")]
     public class DoneTasksController : BaseController
     {
         private readonly IDoneTasksService doneTasksService;
         private readonly UserManager<IdentityUser> userManager;
+        ILogger<DoneTasksController> logger;
 
         public DoneTasksController(IDoneTasksService _doneTasksService,
-           UserManager<IdentityUser> _userManager)
+           UserManager<IdentityUser> _userManager,
+            ILogger<DoneTasksController> _logger)
         {
             doneTasksService = _doneTasksService;
             userManager = _userManager;
+            logger = _logger;
         }
         public IActionResult AllDoneTasks()
         {
@@ -41,14 +44,16 @@ namespace ToDoList.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ReopenTask(Guid Id)
         {
-            try
             {
-                await doneTasksService.ReopenTask(Id);
-                return RedirectToAction("AllTasks", "OverdueTasks");
-            }
-            catch
-            {
-                return View();
+                try
+                {
+                    await doneTasksService.ReopenTask(Id);
+                    return RedirectToAction("AllDoneTasks");
+                }
+                catch
+                {
+                    return View();
+                }
             }
         }
 

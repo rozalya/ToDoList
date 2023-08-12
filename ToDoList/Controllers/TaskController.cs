@@ -12,22 +12,23 @@ namespace ToDoList.Controllers
     {
         private readonly ITaskService taskService;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ILogger<TaskController> logger;
 
         public TaskController(ITaskService _taskService,
-           UserManager<IdentityUser> _userManager)
+           UserManager<IdentityUser> _userManager,
+            ILogger<TaskController> _logger)
         {
             taskService = _taskService;
             userManager = _userManager;
+            logger = _logger;
         }
 
-        // GET: AddNewTaskController
         [HttpGet]
         public IActionResult AddNewTask()
         {
             return View();
         }
 
-        // GET: AddNewTaskController/Details/5
         public async Task<IActionResult> Details(Guid id)
         {
             var task = await taskService.GetTask(id);
@@ -49,6 +50,11 @@ namespace ToDoList.Controllers
                 try
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    if (userId == null)
+                    {
+                        ViewBag.ErrorMessage = $"Role with Id = {userId} cannot be found";
+                        return View("NotFound");
+                    }
                     taskService.NewTask(model, userId);
                 }
                 catch (ArgumentException ae)
@@ -62,7 +68,6 @@ namespace ToDoList.Controllers
             return View();
         }
 
-        // GET: AddNewTaskController/Edit/5
         public async Task<IActionResult> EditTask(Guid Id)
         {
             var task = await taskService.GetTask(Id);
@@ -92,7 +97,6 @@ namespace ToDoList.Controllers
             }
         }
 
-        // POST: AddNewTaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTask(TaskViewModel model)

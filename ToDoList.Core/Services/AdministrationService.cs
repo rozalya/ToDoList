@@ -18,6 +18,11 @@ namespace ToDoList.Core.Services
             this.roleManager = roleManager;
         }
 
+        /// <summary>
+        /// Edit the current role.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<EditRoleViewModel> EditRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
@@ -34,10 +39,14 @@ namespace ToDoList.Core.Services
                     model.Users.Add(user.UserName);
                 }
             }
-
             return model;
         }
 
+        /// <summary>
+        /// Get the data for the current user.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<EditUserViewModel> EditUser(string id)
         {
             var user = await userManager.FindByIdAsync(id);
@@ -55,6 +64,11 @@ namespace ToDoList.Core.Services
             return model;
         }
 
+        /// <summary>
+        /// Edit the current user.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<IdentityResult> EditUser(EditUserViewModel model)
         {
             var user = await userManager.FindByIdAsync(model.Id);
@@ -63,6 +77,11 @@ namespace ToDoList.Core.Services
             return await userManager.UpdateAsync(user);
         }
 
+        /// <summary>
+        /// Get the current user roles.
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
         public async Task<List<UserRoleViewModel>> EditUsersInRole(string roleId)
         {
             var role = await roleManager.FindByIdAsync(roleId);
@@ -90,6 +109,12 @@ namespace ToDoList.Core.Services
             return model;
         }
 
+        /// <summary>
+        /// Edit the current user roles.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
         public async Task EditUsersInRole(List<UserRoleViewModel> model,string roleId)
         {
             var role = await roleManager.FindByIdAsync(roleId);
@@ -118,12 +143,17 @@ namespace ToDoList.Core.Services
                     if (i < (model.Count - 1))
                         continue;
                     else
-                        return; /*RedirectToAction("EditRole", new { Id = roleId });*/
+                        return; 
                 }
             }
 
         }
 
+        /// <summary>
+        /// Manage claims for the current user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<UserClaimsViewModel> ManageUserClaims(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -152,6 +182,11 @@ namespace ToDoList.Core.Services
             return model;
         }
 
+        /// <summary>
+        /// Manage roles for the current user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<List<UserRolesViewModel>> ManageUserRoles(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);

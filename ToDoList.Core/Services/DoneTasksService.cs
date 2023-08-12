@@ -13,6 +13,12 @@ namespace ToDoList.Core.Services
         {
             repo = _repo;
         }
+
+        /// <summary>
+        /// Get all Done tasks  for the given  user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public DoneTaskListViewModel GetAllDoneTasks(string userId)
         {
             var userTasks = repo.All<DoneTask>()
@@ -31,6 +37,11 @@ namespace ToDoList.Core.Services
             };
         }
 
+        /// <summary>
+        /// Reopen the current task.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task ReopenTask(Guid Id)
         {
             var taskToReopen = await repo.GetByIdAsync<DoneTask>(Id);
@@ -49,6 +60,11 @@ namespace ToDoList.Core.Services
             repo.SaveChanges();
         }
 
+        /// <summary>
+        /// Get the details of the current task
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
         public async Task<DoneTaskViewModel> GetTask(Guid taskId)
         {
             var task = await repo.GetByIdAsync<DoneTask>(taskId);
@@ -63,6 +79,13 @@ namespace ToDoList.Core.Services
             };
         }
 
+
+        /// <summary>
+        /// Add rate for the current task.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
         public async Task AddRate(RateTaskViewModel model, Guid taskId)
         {
             var ratedModel = new Rate

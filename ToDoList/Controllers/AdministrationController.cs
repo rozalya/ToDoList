@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -42,7 +43,6 @@ namespace ToDoList.Controllers
         }
 
        [HttpGet]
-        //[Authorize(Policy = "EditRolePlicy")]
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
@@ -56,23 +56,7 @@ namespace ToDoList.Controllers
             { 
                 var model = administrationService.EditRole(id);
                 return View(model.Result);
-            }
-
-           /* var model = new EditRoleViewModel
-            {
-                Id = role.Id,
-                RoleName = role.Name
-            };
-
-            foreach (var user in userManager.Users.ToList())
-            {
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    model.Users.Add(user.UserName);
-                }
-            }*/
-
-            
+            }            
         }
 
         [HttpGet]
@@ -88,29 +72,6 @@ namespace ToDoList.Controllers
                 return View("NotFound");
             }
             var model = await administrationService.EditUsersInRole(roleId);
-
-          /*  var model = new List<UserRoleViewModel>();
-
-            foreach (var user in userManager.Users.ToList())
-            {
-                var userRoleViewModel = new UserRoleViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName
-                };
-
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    userRoleViewModel.IsSelected = true;
-                }
-                else
-                {
-                    userRoleViewModel.IsSelected = false;
-                }
-
-                model.Add(userRoleViewModel);
-            }*/
-
             return View(model);
         }
 
@@ -122,38 +83,10 @@ namespace ToDoList.Controllers
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
-                return View("NotFound");//TODO
+                return View("NotFound");
             }
            
-            await administrationService.EditUsersInRole(model, roleId);
-          /*  for (int i = 0; i < model.Count; i++)
-            {
-                var user = await userManager.FindByIdAsync(model[i].UserId);
-
-                IdentityResult result = null;
-
-                if (model[i].IsSelected && !(await userManager.IsInRoleAsync(user, role.Name)))
-                {
-                    result = await userManager.AddToRoleAsync(user, role.Name);
-                }
-                else if (!model[i].IsSelected && await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    result = await userManager.RemoveFromRoleAsync(user, role.Name);
-                }
-                else
-                {
-                    continue;
-                }
-
-                if (result.Succeeded)
-                {
-                    if (i < (model.Count - 1))
-                        continue;
-                    else
-                        return RedirectToAction("EditRole", new { Id = roleId });
-                }
-            }*/
-
+            await administrationService.EditUsersInRole(model, roleId);         
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
@@ -172,20 +105,6 @@ namespace ToDoList.Controllers
                 var model = administrationService.EditUser(id);
                 return View(model.Result);
             }
-
-            /*var userClaims = await userManager.GetClaimsAsync(user);
-            var userRoles = await userManager.GetRolesAsync(user);
-
-            var model = new EditUserViewModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                Claims = userClaims.Select(c => c.Type + " : " + c.Value).ToList(),
-                Roles = userRoles
-            };*/
-
-            //return View(model);
         }
 
         [HttpPost]
@@ -201,10 +120,6 @@ namespace ToDoList.Controllers
             else
             {
                 var result = administrationService.EditUser(model);
-                /*user.Email = model.Email;
-                user.UserName = model.UserName;
-
-                var result = await userManager.UpdateAsync(user);*/
 
                 if (result.Result.Succeeded)
                 {
@@ -260,29 +175,6 @@ namespace ToDoList.Controllers
             }
 
             var model = administrationService.ManageUserClaims(userId);
-
-          /*  var model = new UserClaimsViewModel
-            {
-                UserId = userId
-            };
-
-            foreach (Claim claim in ClaimsStore.AllClaims)
-            {
-                UserClaim userClaim = new UserClaim
-                {
-                    ClaimType = claim.Type
-                };
-
-                // If the user has the claim, set IsSelected property to true, so the checkbox
-                // next to the claim is checked on the UI
-                if (existingUserClaims.Any(c => c.Type == claim.Type && c.Value == "true"))
-                {
-                    userClaim.IsSelected = true;
-                }
-
-                model.Result.Cliams.Add(userClaim);
-            }*/
-
             return View(model.Result);
         }
 
@@ -333,29 +225,6 @@ namespace ToDoList.Controllers
             }
 
             var model = administrationService.ManageUserRoles(userId);
-
-          /*  var model = new List<UserRolesViewModel>();
-
-            foreach (var role in roleManager.Roles.ToList())
-            {
-                var userRolesViewModel = new UserRolesViewModel
-                {
-                    RoleId = role.Id,
-                    RoleName = role.Name
-                };
-
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    userRolesViewModel.IsSelected = true;
-                }
-                else
-                {
-                    userRolesViewModel.IsSelected = false;
-                }
-
-                model.Add(userRolesViewModel);
-            }*/
-
             return View(model.Result);
         }
 
